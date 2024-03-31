@@ -1,2 +1,2 @@
-from my_project import haha
-my_project.module()
+from my_package import package
+package.show()
