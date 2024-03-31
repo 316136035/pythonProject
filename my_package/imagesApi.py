@@ -62,7 +62,7 @@ def return_Image_all():
         list.append(new_img)  # 转换灰度图
     return list
 # 显示所有图片
-def showImage_all(images):
+def show_Image_all(images):
 
     # 获取所有图片的最大高度和宽度（假设都是灰度图像）
     max_height = max([img.shape[0] for img in images])
@@ -98,9 +98,9 @@ def showImage_all(images):
 
     # 显示图形
     plt.show()
-# 获取所有图片
+# # 获取所有图片
 # images = return_Image_all()  # 假设这是一个返回图片列表的函数
 
 
-# showImage_all(return_Image_all())
+# show_Image_all(return_Image_all())
 
