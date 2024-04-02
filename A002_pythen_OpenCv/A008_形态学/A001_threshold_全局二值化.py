@@ -39,7 +39,7 @@ for image in images:
 # 在这种情况下，thresh 参数不再是你直接指定的阈值，而是程序会自动计算阈值。
   # 二值化:灰度图像,阈值,阈值最大值,阈值类型（请求查看上面）
   image=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY) # 灰度图
-  _,newImage= cv2.threshold( image, 100,175,cv2.THRESH_TRUNC)
+  _,newImage= cv2.threshold( image, 100,175,cv2.THRESH_BINARY)
   newImages.append(newImage)
 # 显示处理后的图片
 imagesApi.show_Image_all(newImages)
