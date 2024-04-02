@@ -58,8 +58,7 @@ def return_Image_all():
     list = []
     for i in range(100):
         img = cv2.imread(f"./images/{i+1}.jpg")  # 读取图片
-        new_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 转换颜色通道
-        list.append(new_img)  # 转换灰度图
+        list.append( img)  # 转换灰度图
     return list
 # 显示所有图片
 def show_Image_all(images):
