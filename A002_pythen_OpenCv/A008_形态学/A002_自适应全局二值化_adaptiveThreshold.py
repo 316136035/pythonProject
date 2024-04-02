@@ -10,9 +10,9 @@ newImages = []
 
 # 遍历所有图片
 for image in images:
-
-  # 自适应全局二值化:灰度图片，最大值，自适应阈值计算方法，阈值类型，邻域大小，减多小
-    newImage= cv2.adaptiveThreshold(image,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,5,1)
+    image=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY) # 灰度图
+  # 自适应全局二值化:灰度图片，最大值，自适应阈值计算方法，阈值类型，邻域大小，减多小  （阈值类型只能选前2种）
+    newImage= cv2.adaptiveThreshold(image,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,5,1)
     newImages.append(newImage)
     # 显示处理后的图片  
 imagesApi.show_Image_all(newImages)
