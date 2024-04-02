@@ -9,10 +9,7 @@ newImages = []
 
 # 遍历所有图片
 for image in images:
-    # 更好地保留图像的边缘和细节，尤其适合去除噪声的同时保持边缘清晰。
-    # （图像，滤波器直径必须为正奇数，颜色空间的标准差，坐标空间的标准差）
-    newImage = cv2.bilateralFilter(image, d=3, sigmaColor=1, sigmaSpace=3)
-    newImage = cv2.Canny(newImage, 20,50)  # 边缘检测改变阈值 数值越大检测到的边缘越少
+    newImage = cv2.Canny(image, 150,100)  # 第一阈值，高于此阈值的强度被认为是边缘候选区 第二阈值，低于此阈值的点会被忽略； 而大于等于第一阈值但小于第二阈值的点仅在连接到强边缘时被标记为边缘。
     # 将处理后的图片添加到列表中
 
     newImages.append(newImage)
