@@ -1,5 +1,4 @@
 
-from my_package import imagesApi  # 引入自定义包
 import cv2  # 导入cv2模块
 import numpy as np
 
