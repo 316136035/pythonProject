@@ -1,7 +1,6 @@
-
+from my_package import imagesApi  # 引入自定义包
 import cv2  # 导入cv2模块
 import numpy as np
-
 
 img=cv2.imread('././images/erod.png')
 image=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) # 灰度图
