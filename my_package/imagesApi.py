@@ -66,6 +66,7 @@ def return_Image_all():
 
 # 显示所有图片
 def show_Image_all(images):
+    images = images[:, :, ::-1]
 
     # 获取所有图片的最大高度和宽度（假设都是灰度图像）
     max_height = max([img.shape[0] for img in images])
