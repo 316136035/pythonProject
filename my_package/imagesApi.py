@@ -109,4 +109,4 @@ def show_Image_all(images):
 # images = return_Image_all()  # 假设这是一个返回图片列表的函数
 
 
-show_Image_all(return_Image_all())
+#show_Image_all(return_Image_all())
