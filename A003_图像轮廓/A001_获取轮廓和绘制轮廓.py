@@ -30,7 +30,7 @@ cv2.waitKey(0)
 contours, hierarchy = cv2.findContours(ATimage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 copyimg=img.copy()
 for contour in contours:
-  #原始图像 ,单个轮廓索引,轮廓的颜色,轮廓线条的粗细(会绘制全部)
+  #原始图像 ,单个轮廓索引, -1代表全部,轮廓的颜色,轮廓线条的粗细(会绘制全部)
   cv2.drawContours(copyimg, contours, -1, (0, 255, 0), 2)
   
 # 显示图像

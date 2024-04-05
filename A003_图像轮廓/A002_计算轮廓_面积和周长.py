@@ -39,7 +39,7 @@ for contour in contours:
     x, y, w, h = cv2.boundingRect(contour) # 获取轮廓的边界矩形
     print("面积：",area,"周长：",Length,"X:",x,"Y:",y,"W:",w,"H:",h)
     # 绘制轮廓（假设您要在原彩色图像上绘制轮廓， 会改变原图像）
-    #原始图像 ,单个轮廓索引,轮廓的颜色,轮廓线条的粗细(会绘制全部)
+     #原始图像 ,单个轮廓索引, -1代表全部,轮廓的颜色,轮廓线条的粗细(会绘制全部)
     cv2.drawContours(copyimg, contours, -1, (0, 0,255), 1)
     
   
