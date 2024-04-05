@@ -66,38 +66,28 @@ def return_Image_all():
 
 # 显示所有图片
 def show_Image_all(images):
-    images = images[:, :, ::-1]
-
-    # 获取所有图片的最大高度和宽度（假设都是灰度图像）
-    max_height = max([img.shape[0] for img in images])
-    max_width = max([img.shape[1] for img in images])
+ 
 
     # 计算行数和列数，尽量让每行每列都有图片
     n_rows = (len(images) // 10) + min(1, len(images) % 10)
     n_cols = min(10, len(images))
 
-    # 指定figsize，这里假设你想将整体背景设置为特定的宽度和高度，比如宽度为12英寸，高度自适应
-    # 你需要根据实际情况调整这两个值
-    fig_width_inches = 25  # 示例宽度
-    fig_aspect_ratio = max_width / max_height  # 图片总体的宽高比
-    fig_height_inches = (
-        fig_width_inches / fig_aspect_ratio
-    )  # 根据宽度和图片的宽高比计算高度
-
     # 创建子图，同时设置figsize
     fig, axs = plt.subplots(
         nrows=n_rows,
         ncols=n_cols,
-        figsize=(fig_width_inches, fig_height_inches),
+        figsize=(360, 140),
         squeeze=True,
         gridspec_kw={"wspace": 0, "hspace": 0},
     )
 
     # 遍历每一个 Axes 对象并显示图片
     for i, ax in enumerate(axs.flat):
+       
         if i < len(images):
-            ax.imshow(images[i], cmap="gray", aspect="equal")
-            ax.axis("off")
+            cvtColorImg=cv2.cvtColor(images[i], cv2.COLOR_BGR2RGB) # 将图片转换为RGB格式
+            ax.imshow(cvtColorImg, cmap="gray", aspect="equal") # 显示图片 并设置颜色 和等宽
+            ax.axis("off") # 关闭坐标轴
 
     # 自动调整子图间距以防止重叠
     plt.tight_layout(pad=0)
@@ -110,4 +100,4 @@ def show_Image_all(images):
 # images = return_Image_all()  # 假设这是一个返回图片列表的函数
 
 
-# show_Image_all(return_Image_all())
+show_Image_all(return_Image_all())
