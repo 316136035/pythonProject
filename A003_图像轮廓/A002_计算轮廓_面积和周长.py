@@ -33,7 +33,7 @@ bo=int(0)
 for contour in contours:
     
     area = cv2.contourArea(contour) # 轮廓面积
-    Length= cv2.arcLength(contour, True) # 轮廓长度
+    Length= cv2.arcLength(contour, True) # 轮廓长度（轮廓,是否闭合）
     x, y, w, h = cv2.boundingRect(contour) # 获取轮廓的边界矩形
     print("面积：",area,"周长：",Length,"X:",x,"Y:",y,"W:",w,"H:",h)
     # 绘制轮廓（假设您要在原彩色图像上绘制轮廓， 会改变原图像）
