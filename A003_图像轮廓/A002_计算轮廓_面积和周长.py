@@ -33,18 +33,16 @@ bo=int(0)
 for contour in contours:
     
     area = cv2.contourArea(contour) # 轮廓面积
-    if area>bo: bo=area
-    
     Length= cv2.arcLength(contour, True) # 轮廓长度
     x, y, w, h = cv2.boundingRect(contour) # 获取轮廓的边界矩形
     print("面积：",area,"周长：",Length,"X:",x,"Y:",y,"W:",w,"H:",h)
     # 绘制轮廓（假设您要在原彩色图像上绘制轮廓， 会改变原图像）
-     #原始图像 ,单个轮廓索引, -1代表全部,轮廓的颜色,轮廓线条的粗细(会绘制全部)
-    cv2.drawContours(copyimg, contours, -1, (0, 0,255), 1)
+     #原始图像 ,单个轮廓索引, 【如果提供了单个轮廓索引则只绘制该索引对应的轮廓若设为-1则绘制所有轮廓】,轮廓的颜色,轮廓线条的粗细(会绘制全部)
+    cv2.drawContours(copyimg, contours,100, (0, 0,255), 2)
     
   
     
-print("最大面积：",bo) 
+
 # 显示图像
 cv2.imshow("drawContours", np.hstack((img, copyimg)))
 cv2.waitKey(0)
