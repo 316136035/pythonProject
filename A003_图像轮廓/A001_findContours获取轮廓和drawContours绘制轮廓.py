@@ -33,6 +33,7 @@ for contour in contours:
   #原始图像 ,单个轮廓索引, -1代表全部,轮廓的颜色,轮廓线条的粗细(会绘制全部)
   cv2.drawContours(copyimg, contours, -1, (0, 255, 0), 2)
   
+  
 # 显示图像
 cv2.imshow("drawContours", np.hstack((img, copyimg)))
 cv2.waitKey(0)

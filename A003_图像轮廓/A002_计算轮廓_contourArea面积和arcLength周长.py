@@ -40,6 +40,10 @@ for contour in contours:
      #原始图像 ,单个轮廓索引, 【如果提供了单个轮廓索引则只绘制该索引对应的轮廓若设为-1则绘制所有轮廓】,轮廓的颜色,轮廓线条的粗细(会绘制全部)
     cv2.drawContours(copyimg, contours,100, (0, 0,255), 2)
     
+    if area>35000:
+      #画矩形(图片,(开始坐标xy),(结束坐标xy),(BGR颜色),线型大小,像素位置的偏移值) （当线宽为-1时，表示填充全部）
+      cv2.rectangle(copyimg, (x,y), (int(x+w), int(y+w)), (0,0,255), 2,16)
+    
   
     
 
@@ -47,26 +51,7 @@ for contour in contours:
 cv2.imshow("drawContours", np.hstack((img, copyimg)))
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-    
-    # area = cv2.contourArea(contour)
-    # Length= cv2.arcLength(contour, True)
-    # x, y, w, h = cv2.boundingRect(contour)
-    # print("面积：",area)
-    # print("周长：",Length)
-    # print("坐标：",x,"  ",y,"  ",w,"  ",h)
-    # cv2.drawContours(
-    #       image=image_copy,
-    #       contours=[contour],  # 仅绘全部
-    #       contourIdx=-1,  # 当前轮廓索引设为0，因为只有一个轮廓
-    #       color=(255, 0,0),
-    #       thickness=2,
-    #     )
-    # cv2.imshow("image",  image3)
-    # # cv2.imshow("image", image_copy)
-    # # cv2.waitKey(1000)
-    
-    
-        
+
        
    
   
