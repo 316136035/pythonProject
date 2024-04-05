@@ -8,6 +8,9 @@ gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 # 二值化:灰度图像,阈值,阈值最大值,阈值类型（请求查看上面）
 _, ATimage = cv2.threshold(gray_img, 100, 255, cv2.THRESH_BINARY)
 
+cv2.imshow("ATimage ",ATimage )
+cv2.waitKey(0)
+
 # 腐蚀白色部分 参数1：原图 2：卷积核 3：迭代次数
 erode = cv2.erode(ATimage, np.ones((3, 3), np.uint8), iterations=2)
 # 膨胀白色部分 参数1：原图 2：卷积核 3：迭代次数
