@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-# 读取图像并转换为灰度图像
+# 读取图像
 img = cv2.imread("./images/1.jpg")
 # 转换为灰度图像
 gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
