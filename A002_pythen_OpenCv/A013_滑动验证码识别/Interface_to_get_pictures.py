@@ -5,6 +5,8 @@ import base64
 import requests
 import numpy as np
 import cv2  
+import os
+import time
 
 
 
@@ -78,10 +80,10 @@ def Similarity(image1 ,image2):
         similarity_score = cv2.compareHist(hist1, hist2, method) # 比较两个直方图 返回值是相似度
         if similarity_score > 0.9: # 相似度大于0.8
             print("两张图像相似....")
-            return True
+            return False
         elif similarity_score < 0.9: # 相似度小于0.8
             print("两张图像不相似！！！")
-            return False
+            return True
 
        
 
@@ -96,11 +98,11 @@ for i in range(1,20):
       continue
   else:
     imgX=get_image()
-    are_all_unsimilar = True
+    are_all_unsimilar = True  #默
     # 遍历集合中的图片
     for index, item in enumerate(different_pictures):
-       # 调用相似度函数 True表示相似，False表示不相似
-       if  Similarity(item , imgX):
+       # 调用相似度函数 False表示相似，True表示不相似
+       if not Similarity(item , imgX):
           #跳出循环
           are_all_unsimilar=False
           break
@@ -117,6 +119,10 @@ for i in range(1,20):
       
 # 在循环外一次性显示所有不同的图片
 if different_pictures:
+    url=os.makedirs("./different_pictures", exist_ok=True)
+    print( url)
+    #cv2.imwrite(, image2)  # 保存图片
+    cv2.imwrite('./different_pictures/' + str(int(time.time())) + '.jpg', np.hstack(different_pictures))
     stacked_images = np.hstack(different_pictures)
     cv2.imshow("Different Pictures", stacked_images)
     cv2.waitKey(0)
