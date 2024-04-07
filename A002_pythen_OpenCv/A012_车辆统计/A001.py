@@ -25,10 +25,12 @@ while True:
     morphologyEx_img=cv2.morphologyEx( dilate_iomg, cv2.MORPH_CLOSE, (5, 5))
     cv2.imshow(" morphologyEx",  morphologyEx_img)
      # 第一阈值，高于此阈值的强度被认为是边缘候选区 第二阈值，低于此阈值的点会被忽略； 而大于等于第一阈值但小于第二阈值的点仅在连接到强边缘时被标记为边缘。
-    Canny_img=cv2.Canny( morphologyEx_img,10,50) 
-    cv2.imshow("Canny_img", Canny_img)
+    # Canny_img=cv2.Canny( morphologyEx_img,10,50) 
+    # cv2.imshow("Canny_img", Canny_img)
+    subtractor_img=subtractor.apply(morphologyEx_img)
+    cv2.imshow("subtractor_img=", subtractor_img)
     
-    contours, hierarchy  =cv2.findContours(Canny_img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy  =cv2.findContours(subtractor_img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     copyimg=frame.copy()
     i=int(0)
     for contour in contours:
