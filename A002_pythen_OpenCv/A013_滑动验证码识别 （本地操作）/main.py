@@ -1,6 +1,8 @@
 
 import Util
 import cv2
+import requests
+import time
 # 或者对于requests 3.x及以上版本，可以直接将params作为参数传递
 url = 'https://iv.jd.com/slide/g.html'
 # 定义请求参数
@@ -31,14 +33,33 @@ headers = {
   "sec-ch-ua-platform": "\"Windows\"",
 }
 
+directory_path="./different_pictures"
+#初始化
+img=Util.get_image(url,params,headers) 
+  
+#定义集合存放相似度不同的图片    
+different_pictures={}
 
-
-
-
-for i in range(1,1000):
-    img=Util.get_image(url,params,headers) 
+are_all_unsimilar =True
    # 判断图片是否为空
-    if  not img is None:   # 不为空
-      print(i)
-      cv2.imshow("img",img)
-      cv2.waitKey(100)
+if  not img is None:   # 不为空
+  SyntaxError=Util.generate_unique_random_strings(length=6, seed_value=88, count=1)
+  print(SyntaxError)
+  #创建文件夹
+  Util.create_directory(directory_path+"/"+SyntaxError[0])
+  #保存图片到文件夹
+  cv2.imwrite(directory_path+"/"+SyntaxError[0]+"/"+SyntaxError[0]+".jpg",img)
+  different_pictures[SyntaxError[0]]=img
+  print(len(different_pictures))
+  
+
+
+  
+  
+  
+
+  
+
+
+
+ 
