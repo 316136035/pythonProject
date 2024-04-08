@@ -7,6 +7,10 @@ import numpy as np
 import cv2  
 import os
 import time
+import random
+import string
+
+
 
 
 
@@ -58,8 +62,7 @@ def get_image():
         img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)#转换为灰度图
         return img
       else:
-         print("获取验证码失败")
-      
+         print("获取验证码失败")      
 # 判断图片是否相同 返回True和False
 def Similarity(image1 ,image2):
    
@@ -80,54 +83,83 @@ def Similarity(image1 ,image2):
         similarity_score = cv2.compareHist(hist1, hist2, method) # 比较两个直方图 返回值是相似度
         if similarity_score > 0.9: # 相似度大于0.8
             print("两张图像相似....")
-            return False
+            return True
         elif similarity_score < 0.9: # 相似度小于0.8
             print("两张图像不相似！！！")
-            return True
+            return False
 
-       
+ # 生成指定长度的唯一随机字符串
+# 生成带有种子值的唯一随机字符串
+def generate_unique_random_strings(length, seed_value, count):
+    # 设置固定的随机种子
+    random.seed(seed_value)
 
-#定义集合存放不同的图片         
-different_pictures=[]
+    # 定义可用字符集
+    chars = string.ascii_lowercase
 
-for i in range(1,20):
+    # 创建一个集合用于存储已生成过的字符串，防止重复
+    generated_strings = set()
+
+    result = []
+
+    for _ in range(count):
+        while True:
+            # 生成随机字符串
+            random_string = ''.join(random.choices(chars, k=length))
+
+            # 检查是否已生成过此字符串，若未生成过，则添加到结果列表中
+            if random_string not in generated_strings:
+                generated_strings.add(random_string)
+                result.append(random_string)
+                break
+
+    return result
+
+#创建目录
+def create_directory(directory_path):
+   # 判断目录是否存在
+  if not os.path.exists(directory_path):
+    # 创建目录
+    os.makedirs(directory_path)
+
+#定义集合存放相似度不同的图片         
+different_pictures={}
+
+directory_path="./different_pictures"
+create_directory(directory_path)
+
+for i in range(1,100):
   img=get_image() # 获取验证码图片
-  if len(different_pictures)<=0:
+  # 如果集合为空，则添加图片到集合中
+  if not different_pictures :
+      #获取验证码图片
       img=get_image()
-      different_pictures.append(img)
-      continue
+     
+      continue # 
   else:
-    imgX=get_image()
-    are_all_unsimilar = True  #默
-    # 遍历集合中的图片
-    for index, item in enumerate(different_pictures):
-       # 调用相似度函数 False表示相似，True表示不相似
-       if not Similarity(item , imgX):
-          #跳出循环
-          are_all_unsimilar=False
-          break
-        
-    if are_all_unsimilar :
-      cv2.imshow("Different Pictures", imgX)
-      different_pictures.append(imgX)
-         
+    imgX=get_image() # 获取验证码图片
+    are_all_unsimilar = True # 假设所有图片都是相似的
+    # 遍历集合中的所有图片
+    for key, image in different_pictures.items(): 
+      if Similarity(imgX, image): # 如果相似
+        are_all_unsimilar = False  # 退出循环
+        break
+      else:
+        print("图片相似度不同")
+     # 如果所有图片都是不相似的
+    if are_all_unsimilar:
+     
+     
+     
+      print(f"获取验证码成功,图片长度：{len(different_pictures)}")
+   
+      
   
      
-      
+
           
         
-      
-# 在循环外一次性显示所有不同的图片
-if different_pictures:
-    url=os.makedirs("./different_pictures", exist_ok=True)
-    print( url)
-    #cv2.imwrite(, image2)  # 保存图片
-    cv2.imwrite('./different_pictures/' + str(int(time.time())) + '.jpg', np.hstack(different_pictures))
-    stacked_images = np.hstack(different_pictures)
-    cv2.imshow("Different Pictures", stacked_images)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-      
+
        
   
     
