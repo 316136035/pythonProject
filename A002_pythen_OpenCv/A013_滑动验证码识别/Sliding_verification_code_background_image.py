@@ -1,2 +1,0 @@
-import Interface_to_get_pictures
-import cv2

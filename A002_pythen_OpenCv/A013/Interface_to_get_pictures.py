@@ -81,10 +81,10 @@ def Similarity(image1 ,image2):
         method = cv2.HISTCMP_CORREL
         # 比较直方图
         similarity_score = cv2.compareHist(hist1, hist2, method) # 比较两个直方图 返回值是相似度
-        if similarity_score > 0.9: # 相似度大于0.8
+        if similarity_score > 0.9: # 相似度大于0.9
             print("两张图像相似....")
             return True
-        elif similarity_score < 0.9: # 相似度小于0.8
+        elif similarity_score < 0.9: # 相似度小于 0.9:
             print("两张图像不相似！！！")
             return False
 
@@ -129,8 +129,8 @@ directory_path="./different_pictures"
 create_directory(directory_path)
 str_list=[]
 
-for i in range(1,20):
- 
+for i in range(1,1000):
+  
   img=get_image() # 获取验证码图片
   # 如果集合为空，则添加图片到集合中
   if not different_pictures :
@@ -140,14 +140,19 @@ for i in range(1,20):
       str_list=generate_unique_random_strings(5,41,1)
       # 将字符串和图片添加到集合中
       different_pictures[str_list[0]]=img
+
+      create_directory(directory_path+"/"+str_list[0])
       continue # 
-  else:
+  else: 
     imgX=get_image() # 获取验证码图片
     are_all_unsimilar = True # 假设所有图片都是相似的
     # 遍历集合中的所有图片
     for key, image in different_pictures.items(): 
       if Similarity(imgX, image): # 如果相似
         are_all_unsimilar = False  # 退出循环
+        str_list=generate_unique_random_strings(5,41,1)
+        timestamp = int(time.time())
+        cv2.imwrite(directory_path+"/"+key+"/"+ str(timestamp)+".jpg",imgX)
         break
       else:
         print("............图片相似度不同..............")
@@ -155,26 +160,20 @@ for i in range(1,20):
     if are_all_unsimilar:
        # 生成随机字符串
       str_list=generate_unique_random_strings(5,41,len(different_pictures)+1)
-      # 将字符串和图片添加到集合中
-      different_pictures[str_list[len(different_pictures)]]=imgX
- 
-      
-      
-      
-     
+      #获取随机字符串数组的最后一位
+      key=str_list[len(different_pictures)]
+      # 将字符串和图片添加到集合中(初级运行的时候集合为空，添加了一个数据，所以集合长度为1)
+      different_pictures[key]=imgX
+   
+      # 创建目录
+      create_directory(directory_path+"/"+key)
+      cv2.imwrite(directory_path+"/"+key+"/"+key+".jpg",imgX)
       print("集合长度：",len(different_pictures),"字符串长度：",len(str_list))
       
       
 
   
-for key, image in different_pictures.items(): 
-    print(key)
-print(type(different_pictures)) 
-print(type(str_list)) 
-print(str_list)     
-print(str_list[9]) 
-cv2.waitKey(0)
-       
+
   
     
   
