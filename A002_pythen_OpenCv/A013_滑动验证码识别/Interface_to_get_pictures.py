@@ -114,7 +114,6 @@ def generate_unique_random_strings(length, seed_value, count):
                 break
 
     return result
-
 #创建目录
 def create_directory(directory_path):
    # 判断目录是否存在
@@ -125,16 +124,22 @@ def create_directory(directory_path):
 #定义集合存放相似度不同的图片         
 different_pictures={}
 
+ # 创建目录
 directory_path="./different_pictures"
 create_directory(directory_path)
+str_list=[]
 
-for i in range(1,100):
+for i in range(1,20):
+ 
   img=get_image() # 获取验证码图片
   # 如果集合为空，则添加图片到集合中
   if not different_pictures :
       #获取验证码图片
       img=get_image()
-     
+      # 生成随机字符串
+      str_list=generate_unique_random_strings(5,41,1)
+      # 将字符串和图片添加到集合中
+      different_pictures[str_list[0]]=img
       continue # 
   else:
     imgX=get_image() # 获取验证码图片
@@ -145,21 +150,30 @@ for i in range(1,100):
         are_all_unsimilar = False  # 退出循环
         break
       else:
-        print("图片相似度不同")
+        print("............图片相似度不同..............")
      # 如果所有图片都是不相似的
     if are_all_unsimilar:
-     
-     
-     
-      print(f"获取验证码成功,图片长度：{len(different_pictures)}")
-   
+       # 生成随机字符串
+      str_list=generate_unique_random_strings(5,41,len(different_pictures)+1)
+      # 将字符串和图片添加到集合中
+      different_pictures[str_list[len(different_pictures)]]=imgX
+ 
       
-  
+      
+      
      
+      print("集合长度：",len(different_pictures),"字符串长度：",len(str_list))
+      
+      
 
-          
-        
-
+  
+for key, image in different_pictures.items(): 
+    print(key)
+print(type(different_pictures)) 
+print(type(str_list)) 
+print(str_list)     
+print(str_list[9]) 
+cv2.waitKey(0)
        
   
     
