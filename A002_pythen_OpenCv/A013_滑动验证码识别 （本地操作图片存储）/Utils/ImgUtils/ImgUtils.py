@@ -10,6 +10,7 @@ from glob import glob
 from typing import List, Tuple
 from PIL import Image
 import numpy as np
+import binascii
 
 
 class ImgUtils:
@@ -17,7 +18,6 @@ class ImgUtils:
     # json解析函数
     def Json_explanation(response):
         type = response.headers.get("Content-Type")
-        print(type)
         if type == "application/json":
             try:
                 return response.json()
@@ -125,29 +125,32 @@ class ImgUtils:
 
     @staticmethod
     # base64字符串转图片
-    def base64_to_image(
-        base64_string: str,
-    ):
+    def base64_to_image(base64_string: str):
         try:
-            # 解码Base64字符串
+            # 解码Base64字符串  据Base64编码规则计算需要补充的'='数量
+            padding_needed = (4 - len(base64_string) % 4) % 4
+            base64_string += '=' * padding_needed
             image_data = base64.b64decode(base64_string)
             # 使用NumPy从字节串创建数组，推荐使用frombuffer代替fromstring
             parr = np.frombuffer(image_data , dtype=np.uint8)
             # 使用OpenCV将字节串转换为图像
             img = cv2.imdecode(parr, cv2.IMREAD_COLOR)
-                # 转换为灰度图
+            # 转换为灰度图
             img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             return img_gray # 转换成功
-        except ():
-            print(f"转换Base64编码为图片时发生错误!!!!或者其他错误！！1")
+        except binascii.Error as e:
+            print(f"解码错误: {e}","base64_string:",base64_string)
             return None  # 转换失败
 
     @staticmethod
     #将图片二进制数据转换为Base64编码
     def image_to_base64(image):
         try:
+            #将图像转换为JPEG格式并编码为字节串
+            _, img_encoded = cv2.imencode('.jpg',image)
+            print(len(img_encoded))
             # 将图片二进制数据转换为Base64编码
-            base64_string = base64.b64encode(image).decode("utf-8")
+            base64_string = base64.b64encode(img_encoded).decode("utf-8")
             return base64_string  # 转换成功
         except Exception as e:
             print(f"将图片转换为Base64编码时发生错误!!!!")

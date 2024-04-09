@@ -39,15 +39,25 @@ response=HttpRequest.get(endpoint,params,headers)
 # 使用完后关闭会话
 response.close()
 Json_object=ImgUtils.Json_explanation(response)
-print(Json_object.get("bg"))
 
-img=ImgUtils.base64_to_image(Json_object.get("bg"))
-cv2.imshow("img",img)
-cv2.waitKey(0)
+# # 将base64字符串转换为图片
+# img=ImgUtils.base64_to_image(Json_object.get("bg"))
+# cv2.imshow("img",img)
+# cv2.waitKey(0)
 
-base64_img=ImgUtils.image_to_base64(img)
-img1=ImgUtils.base64_to_image(base64_img)
-cv2.imshow("img1",img1)
-cv2.waitKey(0)
+# # 将图片转换为base64字符串
+# base64_img=ImgUtils.image_to_base64(img)
+# img1=ImgUtils.base64_to_image(base64_img)
+# cv2.imshow("img1",img1)
+# cv2.waitKey(0)
 
+for i in range(0,1000):
+  print(i)
+  response=HttpRequest.get(endpoint,params,headers)
+  Json_object=ImgUtils.Json_explanation(response)
+  img=ImgUtils.base64_to_image(Json_object.get("bg"))
+  if img is not None:
+    cv2.imshow("img",img)
+    cv2.waitKey(100)
+  
 
