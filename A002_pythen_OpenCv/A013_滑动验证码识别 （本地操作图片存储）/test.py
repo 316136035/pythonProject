@@ -1,7 +1,9 @@
-import 动态获取验证码背景图片
-import os
-# 或者对于requests 3.x及以上版本，可以直接将params作为参数传递
-url = "https://iv.jd.com/slide/g.html"
+from Utils.ImgUtils.ImgUtils import ImgUtils
+from My_requests.my_requests import HttpRequest
+import cv2
+
+base_url= "https://iv.jd.com"
+endpoint="/slide/g.html"
 # 定义请求参数
 params = {
     # 定义请求头
@@ -29,19 +31,23 @@ headers = {
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"Windows"',
 }
+# 初始化请求对象
+HttpRequest=HttpRequest(base_url)
+# 初始化图片工具对象
+ImgUtils=ImgUtils()
+response=HttpRequest.get(endpoint,params,headers)
+# 使用完后关闭会话
+response.close()
+Json_object=ImgUtils.Json_explanation(response)
+print(Json_object.get("bg"))
 
-SVCR=动态获取验证码背景图片.sliding_verification_code_recognition(url, params, headers) # 创建对象
+img=ImgUtils.base64_to_image(Json_object.get("bg"))
+cv2.imshow("img",img)
+cv2.waitKey(0)
 
-for i in range(1, 1000):
-    # 获取图片
-    new_img=SVCR.get_image(url, params, headers)
-    # 判断图片是否相同
-    SVCR.classify_verification_code_images(new_img)
-   
-
-
+base64_img=ImgUtils.image_to_base64(img)
+img1=ImgUtils.base64_to_image(base64_img)
+cv2.imshow("img1",img1)
+cv2.waitKey(0)
 
 
-
-
- 
