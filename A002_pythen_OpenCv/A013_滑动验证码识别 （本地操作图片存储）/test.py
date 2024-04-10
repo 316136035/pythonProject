@@ -2,7 +2,11 @@ from Utils.ImgUtils.ImgUtils import ImgUtils
 from My_requests.my_requests import HttpRequest
 import cv2
 
+#定义目录
+all_img_path = "./different_pictures"
+# 定义请求url
 base_url= "https://iv.jd.com"
+# 定义请求endpoint
 endpoint="/slide/g.html"
 # 定义请求参数
 params = {
@@ -40,17 +44,37 @@ response=HttpRequest.get(endpoint,params,headers)
 response.close()
 # 将响应转换为json对象
 Json_object=ImgUtils.Json_explanation(response)
-#['olpfvvqeni', 'gyzbwpjhrl', 'rrdtzzpbad', 'yhjxiolbpv', 'efkamvrnwd', 'ojpcuceuyl', 'kghqedleqv', 'umjlasiicl', 'pkwrgnxnpb', 'mlkkpomelz', 'kaanbcclzm', 'llnlsxslqx', 'dgqrqpvmuz', 'lwsxbxtzzh', 'rdpxejcffc', 'zxmtsnlrog', 'jqqfpwwqbl', 'cbgltqhsnn', 'glismlmmrs', 'ukuzzsbwva', 'iitpheecuy', 'ftyeolzwaf', 'wonvtyibrb', 'owkpeepwza', 'xnjkpjdwsp', 'szevviolfl', 'dyeqozujjb', 'biybeqjeyb', 'plifektmuw', 'ewpknxkcyd', 'csihqxixqp', 'naerscqmpk', 'fjzewnbvav', 'ixsjqzefhv', 'ggppkoaaab', 'uzdkalrqxo', 'bjliaqmsjb', 'geldcndcds', 'uvoqtlnsqp', 'qnfhrkwjrd', 'hweqaplxvu', 'iremkmhfnq', 'oyodqiydlr', 'znjuuxsdzy', 'lrvxscbjli', 'ttksfygejw', 'prvkyzntwp', 'drlwfaeejf', 'ipemjarnuw', 'bslwdvlcmw', 'bjcavooxcy', 'twvkazqssh', 'rlfmmhtxpa', 'oqvhgjeuao', 'vaezhtambg', 'arljkrgebq', 'rgnzmtjous', 'phbmsjsmbp', 'oifzpsbtem', 'kkufywmwox', 'mztrzsgqek', 'selfkgsvms', 'tvurtsnues', 'qopxurxwiw', 'xpyeugknkn', 'cbshhstnvj', 'xqwvsytldk', 'papkmbcqhe', 'wbsvxrblwk', 'ntpjpmibgz', 'hjzcgjmkhd', 'oeattjwexr', 'rbtenobhxt', 'izbquwqtgu', 'rogrbnripb', 'imvnyjxpme', 'vukihicwle', 'rewaoqifxp', 'seaxebuoao', 'nypdquzipb', 'ydqwmzkowa', 'wveshensji', 'fopwvaddht', 'msvjafqoft', 'aenpxjvmhy', 'mshxmbbjlc', 'woyquebfkb', 'yhubwinpph', 'gkoafbvsvr', 'aiwmiexcji', 'qxtzhtsbow', 'afnpowjrov', 'kxwsxrhyjj', 'qnzkylfnrh', 'plabjsezjc', 'exvrbqagbr', 'vgzowfuqct', 'tjgbphgldr', 'ihlllgtxos', 'vhwoqowmsg']
-strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=100)
-print(strlist)
 
-# for i in range(0,1000):
-#   print(i)
-#   response=HttpRequest.get(endpoint,params,headers)
-#   Json_object=ImgUtils.Json_explanation(response)
-#   img=ImgUtils.base64_to_image(Json_object.get("bg"))
-#   if img is not None:
-#     cv2.imshow("img",img)
-#     cv2.waitKey(100)
+different_pictures={} #定义一个字典存放背景不同的图片
+#定义一个变量
+is_similarity_img_recognition=True #定义一个变量
+for i in range(0,10):
+  ImgUtils.create_directory(all_img_path)  #判断目录是否存在 不存在会自动创建
+  if i==0:
+    img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
+    Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
+    img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
+    strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=i+1) #生成随机字符串
+    ImgUtils.create_directory(all_img_path+"/"+strlist[i]) #创建目录
+    different_pictures[strlist[i]]=img #将图片放入字典
+    num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[i]) #计算目录下图片数量
+    cv2.imwrite(all_img_path+"/"+strlist[i]+"/"+strlist[i]+"_"+str(num)+".jpg",img)
+  else:
+    img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
+    Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
+    new_img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
+    if  ImgUtils.similarity_img_recognition(img,new_img): #判断图片是否相同
+        print("图片相同......")
+        is_similarity_img_recognition=False
+        break
+    # 如果全部图片不相同
+    if is_similarity_img_recognition:
+        strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=len(different_pictures)+1)
+
+        print("图片不相同......")
+      
+    
+  
+
   
 

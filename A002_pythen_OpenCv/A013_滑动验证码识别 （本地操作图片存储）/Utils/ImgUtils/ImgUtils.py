@@ -68,17 +68,20 @@ class ImgUtils:
             return False
 
     @staticmethod
-    # 创建目录
+    # 判断目录是否存在/创建目录
     def create_directory(directory_path):
-        # 判断目录是否存在
-        if os.path.exists(directory_path):
-            # 目录存在，删除目录（包括子目录和文件），但应当谨慎处理，可考虑添加确认提示或者日志记录
-            print(f"目录 {directory_path} 已存在并将被删除。")
-            shutil.rmtree(directory_path)
-
-        # 创建目录，由于设置了exist_ok=True，即使目录已存在也不会抛出异常，而是保持原状
-        os.makedirs(directory_path, exist_ok=True)
-
+        
+        # 使用os.path.isdir()函数检查给定路径是否为一个存在的目录
+        if not os.path.isdir(directory_path):
+            # 如果目录不存在（即os.path.isdir()返回False），则调用os.makedirs()函数创建目录
+            # os.makedirs()函数会创建指定路径的目录及其所有不存在的父目录
+            os.makedirs(directory_path)
+            # 创建成功后输出提示信息
+            print(f"目录 {directory_path} 不存在，已创建。")
+        else:
+            # 如果目录已存在（即os.path.isdir()返回True），则输出提示信息
+            print(f"目录 {directory_path} 已存在。")
+           
     @staticmethod
     # # 读取指定目录下的所有图片的数量 参数1:目录路径
     def count_amount_images_in_folder(self, folder_path):
@@ -159,7 +162,7 @@ class ImgUtils:
             return None
 
     @staticmethod
-    #生产随机字符串
+    #生产随机字符串 参数：长度，种子值，生成数量
     def generate_unique_random_strings(length, seed_value, count):
         # 设置固定的随机种子
         random.seed(seed_value)
