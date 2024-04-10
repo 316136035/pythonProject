@@ -11,6 +11,8 @@ from typing import List, Tuple
 from PIL import Image
 import numpy as np
 import binascii
+import random
+import string
 
 
 class ImgUtils:
@@ -155,3 +157,31 @@ class ImgUtils:
         except Exception as e:
             print(f"将图片转换为Base64编码时发生错误!!!!")
             return None
+
+    @staticmethod
+    #生产随机字符串
+    def generate_unique_random_strings(length, seed_value, count):
+        # 设置固定的随机种子
+        random.seed(seed_value)
+
+        # 定义可用字符集
+        chars = string.ascii_lowercase
+
+        # 创建一个集合用于存储已生成过的字符串，防止重复
+        generated_strings = set()
+
+        result = []
+
+        for _ in range(count):
+            while True:
+                # 生成随机字符串
+                random_string = "".join(random.choices(chars, k=length))
+
+                # 检查是否已生成过此字符串，若未生成过，则添加到结果列表中
+                if random_string not in generated_strings:
+                    generated_strings.add(random_string)
+                    result.append(random_string)
+                    break
+
+        return result
+    

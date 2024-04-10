@@ -38,26 +38,19 @@ ImgUtils=ImgUtils()
 response=HttpRequest.get(endpoint,params,headers)
 # 使用完后关闭会话
 response.close()
+# 将响应转换为json对象
 Json_object=ImgUtils.Json_explanation(response)
+#['olpfvvqeni', 'gyzbwpjhrl', 'rrdtzzpbad', 'yhjxiolbpv', 'efkamvrnwd', 'ojpcuceuyl', 'kghqedleqv', 'umjlasiicl', 'pkwrgnxnpb', 'mlkkpomelz', 'kaanbcclzm', 'llnlsxslqx', 'dgqrqpvmuz', 'lwsxbxtzzh', 'rdpxejcffc', 'zxmtsnlrog', 'jqqfpwwqbl', 'cbgltqhsnn', 'glismlmmrs', 'ukuzzsbwva', 'iitpheecuy', 'ftyeolzwaf', 'wonvtyibrb', 'owkpeepwza', 'xnjkpjdwsp', 'szevviolfl', 'dyeqozujjb', 'biybeqjeyb', 'plifektmuw', 'ewpknxkcyd', 'csihqxixqp', 'naerscqmpk', 'fjzewnbvav', 'ixsjqzefhv', 'ggppkoaaab', 'uzdkalrqxo', 'bjliaqmsjb', 'geldcndcds', 'uvoqtlnsqp', 'qnfhrkwjrd', 'hweqaplxvu', 'iremkmhfnq', 'oyodqiydlr', 'znjuuxsdzy', 'lrvxscbjli', 'ttksfygejw', 'prvkyzntwp', 'drlwfaeejf', 'ipemjarnuw', 'bslwdvlcmw', 'bjcavooxcy', 'twvkazqssh', 'rlfmmhtxpa', 'oqvhgjeuao', 'vaezhtambg', 'arljkrgebq', 'rgnzmtjous', 'phbmsjsmbp', 'oifzpsbtem', 'kkufywmwox', 'mztrzsgqek', 'selfkgsvms', 'tvurtsnues', 'qopxurxwiw', 'xpyeugknkn', 'cbshhstnvj', 'xqwvsytldk', 'papkmbcqhe', 'wbsvxrblwk', 'ntpjpmibgz', 'hjzcgjmkhd', 'oeattjwexr', 'rbtenobhxt', 'izbquwqtgu', 'rogrbnripb', 'imvnyjxpme', 'vukihicwle', 'rewaoqifxp', 'seaxebuoao', 'nypdquzipb', 'ydqwmzkowa', 'wveshensji', 'fopwvaddht', 'msvjafqoft', 'aenpxjvmhy', 'mshxmbbjlc', 'woyquebfkb', 'yhubwinpph', 'gkoafbvsvr', 'aiwmiexcji', 'qxtzhtsbow', 'afnpowjrov', 'kxwsxrhyjj', 'qnzkylfnrh', 'plabjsezjc', 'exvrbqagbr', 'vgzowfuqct', 'tjgbphgldr', 'ihlllgtxos', 'vhwoqowmsg']
+strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=100)
+print(strlist)
 
-# # 将base64字符串转换为图片
-# img=ImgUtils.base64_to_image(Json_object.get("bg"))
-# cv2.imshow("img",img)
-# cv2.waitKey(0)
-
-# # 将图片转换为base64字符串
-# base64_img=ImgUtils.image_to_base64(img)
-# img1=ImgUtils.base64_to_image(base64_img)
-# cv2.imshow("img1",img1)
-# cv2.waitKey(0)
-
-for i in range(0,1000):
-  print(i)
-  response=HttpRequest.get(endpoint,params,headers)
-  Json_object=ImgUtils.Json_explanation(response)
-  img=ImgUtils.base64_to_image(Json_object.get("bg"))
-  if img is not None:
-    cv2.imshow("img",img)
-    cv2.waitKey(100)
+# for i in range(0,1000):
+#   print(i)
+#   response=HttpRequest.get(endpoint,params,headers)
+#   Json_object=ImgUtils.Json_explanation(response)
+#   img=ImgUtils.base64_to_image(Json_object.get("bg"))
+#   if img is not None:
+#     cv2.imshow("img",img)
+#     cv2.waitKey(100)
   
 
