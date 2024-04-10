@@ -84,7 +84,7 @@ class ImgUtils:
            
     @staticmethod
     # # 读取指定目录下的所有图片的数量 参数1:目录路径
-    def count_amount_images_in_folder(self, folder_path):
+    def count_amount_images_in_folder( folder_path):
         image_extensions = {
             ".jpg",
             ".jpeg",
