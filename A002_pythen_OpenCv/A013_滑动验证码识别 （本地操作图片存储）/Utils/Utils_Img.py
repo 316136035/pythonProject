@@ -3,8 +3,6 @@ import base64
 import numpy as np
 import cv2
 
-import shutil
-
 import os
 from glob import glob
 from typing import List, Tuple
@@ -13,9 +11,10 @@ import numpy as np
 import binascii
 import random
 import string
+import io
 
 
-class ImgUtils:
+class Utils_Img:
     @staticmethod
     # json解析函数
     def Json_explanation(response):
@@ -68,23 +67,41 @@ class ImgUtils:
             return False
 
     @staticmethod
-    # 判断目录是否存在/创建目录
-    def create_directory(directory_path):
-        
-        # 使用os.path.isdir()函数检查给定路径是否为一个存在的目录
-        if not os.path.isdir(directory_path):
-            # 如果目录不存在（即os.path.isdir()返回False），则调用os.makedirs()函数创建目录
-            # os.makedirs()函数会创建指定路径的目录及其所有不存在的父目录
-            os.makedirs(directory_path)
-            # 创建成功后输出提示信息
-            print(f"目录 {directory_path} 不存在，已创建。")
-        else:
-            # 如果目录已存在（即os.path.isdir()返回True），则输出提示信息
-            print(f"目录 {directory_path} 已存在。")
+    # 判断目录是否存在/创建目录和创建文件
+    def create_directories_an_create_files(local_Storage, file_name):
+        try:
+            # 使用os.path.isdir()函数检查给定路径是否为一个存在的目录
+            if not os.path.isdir(local_Storage):
+            # 如果目录不存在，则调用os.makedirs()函数创建目录
+                os.makedirs(local_Storage)
+                print(f"目录 {local_Storage} 不存在，已创建成功！")
+
+                # 定义要在新创建的目录中创建的.txt文件名及完整路径
+                file_path = os.path.join(local_Storage, file_name)
+            
+                
+               # 创建文件，如果文件不存在的话
+                os.open(file_path, os.O_CREAT | os.O_WRONLY)
+            
+            else:
+                print(f"目录 {local_Storage} 已存在...")
+
+            return True
+
+        except FileNotFoundError as fnf_error:
+            print(f"创建目录或文件时发生错误: {fnf_error}")
+            return False
+        except PermissionError as perm_error:
+            print(f"没有足够的权限创建目录或文件: {perm_error}")
+            return False
+        except Exception as e:
+            print(f"未知错误: {e}")
+        return False
            
     @staticmethod
     # # 读取指定目录下的所有图片的数量 参数1:目录路径
     def count_amount_images_in_folder( folder_path):
+        # 定义一个集合，包含支持的图片格式
         image_extensions = {
             ".jpg",
             ".jpeg",
@@ -94,7 +111,7 @@ class ImgUtils:
         }  # 可拓展的图片格式集合
         image_extensions_tuple = tuple(image_extensions)
 
-#        然后在count_amount_images_in_folder函数中使用这个元组
+#        然后在count_amount_images_in_folder函数中使用    计算个集合 图片数量
         count = sum(1 for file in os.listdir(folder_path) if file.lower().endswith(image_extensions_tuple))
         
         return count
@@ -126,6 +143,44 @@ class ImgUtils:
                 print(f"Error reading image from path '{img_path}': {e}")
 
         return images
+    
+    
+    @staticmethod
+    # 获取指定目录下的所有子目录的第一张图片 返回base64编码
+    def find_first_image_in_each_subdir(parent_dir):
+    # 定义图片文件扩展名集合
+        image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.gif')
+
+    # 存储结果的字典，key为子目录名，value为图片内容（base64编码）
+        result_dict = {}
+
+    # 遍历父目录及其所有子目录
+        for root, dirs, files in os.walk(parent_dir):
+        # 只考虑子目录
+            if root != parent_dir:
+            # 查找符合图片扩展名的文件
+                for filename in files:
+                   if filename.lower().endswith(image_extensions): # 判断文件扩展名 是否为图片格式
+                        print(filename)
+                    # 找到第一张图片
+                        # 找到第一张图片 拼接路径 替换 \ 为 /
+                        image_path = os.path.join(root, filename).replace("\\", "/")
+                        print(image_path)
+                          # 读取图片内容并转换为 base64 编码
+                        with io.BytesIO() as output:
+                            img = Image.open(image_path)
+                            img.save(output, format='PNG')
+                            image_content = output.getvalue()
+                            base64_image = base64.b64encode(image_content).decode('utf-8')
+                        
+                        
+                       
+                        # 存储图片内容
+                        result_dict[root] =  base64_image
+                        break  # 找到后跳出当前子目录的文件循环
+        return result_dict
+
+        
 
     @staticmethod
     # base64字符串转图片

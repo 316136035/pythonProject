@@ -1,9 +1,11 @@
-from Utils.ImgUtils.ImgUtils import ImgUtils
+from Utils.Utils_Img import Utils_Img 
 from My_requests.my_requests import HttpRequest
 import cv2
+import os
 
 #定义目录
-all_img_path = "./different_pictures"
+local_Storage= "./local_Storage"
+file_name="picture_storage.txt"
 # 定义请求url
 base_url= "https://iv.jd.com"
 # 定义请求endpoint
@@ -38,44 +40,39 @@ headers = {
 # 初始化请求对象
 HttpRequest=HttpRequest(base_url)
 # 初始化图片工具对象
-ImgUtils=ImgUtils()
+Utils_Img =Utils_Img ()
 response=HttpRequest.get(endpoint,params,headers)
 # 使用完后关闭会话
 response.close()
 # 将响应转换为json对象
-Json_object=ImgUtils.Json_explanation(response)
+Json_object=Utils_Img .Json_explanation(response)
 
 different_pictures={} #定义一个字典存放背景不同的图片
 #定义一个变量
 is_similarity_img_recognition=True #定义一个变量
-for i in range(0,10):
-
-  if i==0:
+ 
+# 获取图片 返回base64
+def get_base64_img(endpoint,params,headers):
     img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
-    Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
-    img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
-    strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=len(different_pictures)) #生成随机字符串 count函数默认+1 函数返回一个列表 
-    ImgUtils.create_directory(all_img_path+"/"+strlist[len(different_pictures)]) #创建目录
-    num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[len(different_pictures)]) #计算目录下图片数量
-    cv2.imwrite(all_img_path+"/"+strlist[len(different_pictures)]+"/"+strlist[len(different_pictures)]+"_"+str(num)+".jpg",img) #将图片写入目录
-    different_pictures[strlist[len(different_pictures)]]=img #将图片放入字典
-   
-  else:
-    img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
-    Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
-    new_img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
-    if  ImgUtils.similarity_img_recognition(img,new_img): #判断图片是否相同
-        print("图片相同......")
-        is_similarity_img_recognition=False
-        break
-    # 如果全部图片不相同
-    if is_similarity_img_recognition:
-        strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=len(different_pictures)+1)
-
-        print("图片不相同......")
-      
+    Json_object=Utils_Img .Json_explanation(img_data) #将响应转换为json对象
+    return Json_object.get("bg")
     
-  
+# 
+Utils_Img .create_directories_an_create_files(local_Storage,file_name)
 
-  
 
+
+        
+
+
+
+
+for i in range(0,20):
+    str_list=Utils_Img.generate_unique_random_strings(10,88,i)
+    
+    base64_img=get_base64_img(endpoint,params,headers)
+   
+    with open(os.path.join(local_Storage, file_name), 'a') as file:
+        file.writelines( str_list[i]+"----"+base64_img+"\n")
+        
+    

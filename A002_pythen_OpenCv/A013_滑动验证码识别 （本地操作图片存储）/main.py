@@ -1,7 +1,14 @@
-import 动态获取验证码背景图片
+from Utils.ImgUtils.ImgUtils import ImgUtils
+from My_requests.my_requests import HttpRequest
+import cv2
 import os
-# 或者对于requests 3.x及以上版本，可以直接将params作为参数传递
-url = "https://iv.jd.com/slide/g.html"
+
+#定义目录
+all_img_path = "./different_pictures"
+# 定义请求url
+base_url= "https://iv.jd.com"
+# 定义请求endpoint
+endpoint="/slide/g.html"
 # 定义请求参数
 params = {
     # 定义请求头
@@ -29,19 +36,68 @@ headers = {
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"Windows"',
 }
+# 初始化请求对象
+HttpRequest=HttpRequest(base_url)
+# 初始化图片工具对象
+ImgUtils=ImgUtils()
+response=HttpRequest.get(endpoint,params,headers)
+# 使用完后关闭会话
+response.close()
+# 将响应转换为json对象
+Json_object=ImgUtils.Json_explanation(response)
 
-SVCR=动态获取验证码背景图片.sliding_verification_code_recognition(url, params, headers) # 创建对象
+different_pictures={} #定义一个字典存放背景不同的图片
+#定义一个变量
+is_similarity_img_recognition=True #定义一个变量
+ 
+# 获取图片
+def get_image(endpoint,params,headers):
+    img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
+    Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
+    img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
+    return img
+    
+    # 存储图片到字典和目录
+def stored_dictionaries_and_directories(img,all_img_path,str_length=10,seed_value=88):
+    strlist=ImgUtils.generate_unique_random_strings(length=str_length,seed_value=seed_value,count=len(different_pictures)) #生成随机字符串 count函数默认+1 函数返回一个列表 
+    if ImgUtils.create_directory(all_img_path+"/"+strlist[len(different_pictures)]): #判断目录是否存在 不存在就创建
+        print("目录创建成功")
+    num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[len(different_pictures)]) #计算目录下图片数量
+    cv2.imwrite(all_img_path+"/"+strlist[len(different_pictures)]+"/"+strlist[len(different_pictures)]+"_"+str(num)+".jpg",img) #将图片写入目录
+    different_pictures[strlist[len(different_pictures)]]=img #将图片放入字典
+    
+        
 
-for i in range(1, 1000):
-    # 获取图片
-    new_img=SVCR.get_image(url, params, headers)
-    # 判断图片是否相同
-    SVCR.classify_verification_code_images(new_img)
+
+for i in range(1,100):
+   if different_pictures == {}:
+       
+       
+      print("存储中different_pictures字典为空"+str(i))
+      new_img= get_image(endpoint,params,headers)
+      stored_dictionaries_and_directories(new_img,all_img_path,10,88)
+   else:
+      print("存储中different_pictures字典不为空"+str(i))
+      newimg=get_image(endpoint,params,headers)
+      for key,img in different_pictures.items():
    
-
-
-
-
-
+      
+        if ImgUtils.similarity_img_recognition(img,newimg)==True:  #判断图片是否相似 相同会返回True
+            print("相似度判断开始,存储中different_pictures字典",key )
+            is_similarity_img_recognition=False 
+            break
+            
+        else:
+            print("相似度判断结束")
+      #如果全部图片都不相似
+      if is_similarity_img_recognition:
+        print("全部图片都不相似")
+        stored_dictionaries_and_directories(newimg,all_img_path,str_length=10,seed_value=88)
+        
+  
+ 
+  
+  
+   
 
  
