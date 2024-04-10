@@ -58,7 +58,7 @@ for i in range(0,10):
     ImgUtils.create_directory(all_img_path+"/"+strlist[i]) #创建目录
     different_pictures[strlist[i]]=img #将图片放入字典
     num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[i]) #计算目录下图片数量
-    cv2.imwrite(all_img_path+"/"+strlist[i]+"/"+strlist[i]+"_"+str(num)+".jpg",img)
+    cv2.imwrite(all_img_path+"/"+strlist[i]+"/"+strlist[i]+"_"+str(num)+".jpg",img) #将图片写入目录
   else:
     img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
     Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
