@@ -54,7 +54,7 @@ for i in range(0,10):
     img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
     Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
     img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
-    strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=i+1) #生成随机字符串
+    strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=len) #生成随机字符串
     ImgUtils.create_directory(all_img_path+"/"+strlist[i]) #创建目录
     different_pictures[strlist[i]]=img #将图片放入字典
     num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[i]) #计算目录下图片数量
