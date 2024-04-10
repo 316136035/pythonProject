@@ -49,12 +49,12 @@ different_pictures={} #定义一个字典存放背景不同的图片
 #定义一个变量
 is_similarity_img_recognition=True #定义一个变量
 for i in range(0,10):
-  ImgUtils.create_directory(all_img_path)  #判断目录是否存在 不存在会自动创建
+
   if i==0:
     img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
     Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
     img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
-    strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=len(different_pictures)+1) #生成随机字符串
+    strlist=ImgUtils.generate_unique_random_strings(length=10,seed_value=10,count=len(different_pictures)) #生成随机字符串 count函数默认+1 函数返回一个列表 
     ImgUtils.create_directory(all_img_path+"/"+strlist[len(different_pictures)]) #创建目录
     num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[len(different_pictures)]) #计算目录下图片数量
     cv2.imwrite(all_img_path+"/"+strlist[len(different_pictures)]+"/"+strlist[len(different_pictures)]+"_"+str(num)+".jpg",img) #将图片写入目录

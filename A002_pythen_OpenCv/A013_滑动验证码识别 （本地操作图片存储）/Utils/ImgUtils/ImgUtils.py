@@ -92,12 +92,11 @@ class ImgUtils:
             ".bmp",
             ".gif",
         }  # 可拓展的图片格式集合
-        count = sum(
-            1
-            for _, _, files in os.walk(folder_path)
-            for file in files
-            if file.lower().endswith(image_extensions)
-        )
+        image_extensions_tuple = tuple(image_extensions)
+
+#        然后在count_amount_images_in_folder函数中使用这个元组
+        count = sum(1 for file in os.listdir(folder_path) if file.lower().endswith(image_extensions_tuple))
+        
         return count
 
     @staticmethod
@@ -174,8 +173,8 @@ class ImgUtils:
         generated_strings = set()
 
         result = []
-
-        for _ in range(count):
+        # 循环生成指定数量的字符串
+        for _ in range(count+1):
             while True:
                 # 生成随机字符串
                 random_string = "".join(random.choices(chars, k=length))
