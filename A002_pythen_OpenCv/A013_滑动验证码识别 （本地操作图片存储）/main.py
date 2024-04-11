@@ -58,18 +58,26 @@ def get_base64_img(endpoint,params,headers):
 if Utils_Img.create_directories_an_create_files(local_Storage, file_name):
     print("目录存在")
 else:
+    #初级运行
     print("目录不存在并创建目录和文件成功！！")
     base64_img1=get_base64_img(endpoint,params,headers) #获取base64格式图片
     base64_img2=get_base64_img(endpoint,params,headers) #获取base64格式图片
     
     img1=Utils_Img.base64_to_image(base64_img1) 
     img2=Utils_Img.base64_to_image(base64_img2) 
-    Utils_Img.similarity_img_recognition(img1,img2)
+    
     if Utils_Img.similarity_img_recognition(img1,img2)==True:
-        
         print("图片相似")
+        print(os.path.join(local_Storage, file_name))
+        with open(os.path.join(local_Storage, file_name), "w") as f:
+            f.writelines(  base64_img1)
     else:
         print("图片不相似")
+        print(os.path.join(local_Storage, file_name))
+        with open(os.path.join(local_Storage, file_name), "w") as f:
+            f.writelines(  base64_img1)
+            f.writelines(  base64_img2)
+        
     
      
     

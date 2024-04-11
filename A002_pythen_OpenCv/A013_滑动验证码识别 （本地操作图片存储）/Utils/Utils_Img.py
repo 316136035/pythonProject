@@ -5,13 +5,13 @@ import cv2
 
 import os
 from glob import glob
-from typing import List, Tuple
-from PIL import Image
+
+
 import numpy as np
 import binascii
 import random
-import string
-import io
+import string  
+
 
 import base64
 from io import BytesIO
@@ -134,7 +134,10 @@ class Utils_Img:
                 my_dictionary[lines_split[0]]=lines_split[1] # 添加到字典
         return my_dictionary
 
- 
+    # 统计picture_storage.txt文件中相似度相同同的图片 存放在数组中返回
+    def Images_with_the_same_statistical_similarity(local_Storage,file_path,img_name):
+        pass
+        
     @staticmethod
     # base64字符串转图片
     def base64_to_image(base64_string: str):
