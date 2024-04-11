@@ -67,12 +67,13 @@ Utils_Img .create_directories_an_create_files(local_Storage,file_name)
 
 
 
-for i in range(0,20):
-    str_list=Utils_Img.generate_unique_random_strings(10,88,i)
+# for i in range(0,20):
+#     str_list=Utils_Img.generate_unique_random_strings(10,88,i)
     
-    base64_img=get_base64_img(endpoint,params,headers)
+#     base64_img=get_base64_img(endpoint,params,headers)
    
-    with open(os.path.join(local_Storage, file_name), 'a') as file:
-        file.writelines( str_list[i]+"----"+base64_img+"\n")
+#     with open(os.path.join(local_Storage, file_name), 'a') as file:
+#         file.writelines( str_list[i]+"----"+base64_img+"\n")
         
     
+Utils_Img.number_of_pictures_with_the_same_similarity(os.path.join(local_Storage, file_name))

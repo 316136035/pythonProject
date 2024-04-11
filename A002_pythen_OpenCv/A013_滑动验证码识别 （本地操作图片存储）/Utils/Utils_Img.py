@@ -99,21 +99,20 @@ class Utils_Img:
         return False
            
     @staticmethod
-    # # 读取指定目录下的所有图片的数量 参数1:目录路径
-    def count_amount_images_in_folder( folder_path):
-        # 定义一个集合，包含支持的图片格式
-        image_extensions = {
-            ".jpg",
-            ".jpeg",
-            ".png",
-            ".bmp",
-            ".gif",
-        }  # 可拓展的图片格式集合
-        image_extensions_tuple = tuple(image_extensions)
+    # # 读取指定目录下的文件的数量
+    def number_of_pictures_with_the_same_similarity( file_path):
+        count = 0
+        with open(os.path.join(file_path), 'r') as file:
+            while True:
+                line =file.readline() # 一行一行读取
+                if not line: # 读取到文件末尾
+                    break
+                lines_split=line.split('----')[0]
+                print(lines_split)
+                
+                
 
-#        然后在count_amount_images_in_folder函数中使用    计算个集合 图片数量
-        count = sum(1 for file in os.listdir(folder_path) if file.lower().endswith(image_extensions_tuple))
-        
+   
         return count
 
     @staticmethod
