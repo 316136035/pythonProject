@@ -13,6 +13,11 @@ import random
 import string
 import io
 
+import base64
+from io import BytesIO
+import imghdr
+
+
 
 class Utils_Img:
     @staticmethod
@@ -39,6 +44,23 @@ class Utils_Img:
                 print("json.loads(json_str)异常")
                 return None
 
+    # 判断是否是base64格式的图片
+    @staticmethod
+    def is_image_base64(base64_string):
+    # 尝试解码Base64字符串
+        try:
+            data = base64.b64decode(base64_string)
+        except (TypeError, binascii.Error):  # 如果不是有效的Base64数据会抛出异常
+            return False
+    
+     # 检查字节流的头部来初步判断图片类型
+        file_type = imghdr.what(BytesIO(data))
+    
+        # 如果imghdr.what返回了非None值，则表明数据可能是某种图片类型
+        return file_type is not None
+
+# 使用示例
+     
     @staticmethod
     # 判断图片相似度否相同
     def similarity_img_recognition(image1, image2):
@@ -65,7 +87,7 @@ class Utils_Img:
         elif similarity_score < 0.9:  # 相似度小于 0.9:
             print("两张图像不相似！！！")
             return False
-
+    
     @staticmethod
     # 判断目录是否存在/创建目录和创建文件
     def create_directories_an_create_files(local_Storage, file_name):
@@ -82,6 +104,7 @@ class Utils_Img:
                 
                # 创建文件，如果文件不存在的话
                 os.open(file_path, os.O_CREAT | os.O_WRONLY)
+                return False
             
             else:
                 print(f"目录 {local_Storage} 已存在...")
@@ -99,88 +122,19 @@ class Utils_Img:
         return False
            
     @staticmethod
-    # # 读取指定目录下的文件的数量
-    def number_of_pictures_with_the_same_similarity( file_path):
-        count = 0
-        with open(os.path.join(file_path), 'r') as file:
+    # 统计picture_storage.txt文件中相似度不同的图片 存放在字典中返回
+    def Pictures_with_different_statistical_similarities(local_Storage,file_path):
+        my_dictionary ={} # 定义字典 确保键值唯一
+        with open(os.path.join(local_Storage,file_path), 'r') as file:
             while True:
                 line =file.readline() # 一行一行读取
                 if not line: # 读取到文件末尾
                     break
-                lines_split=line.split('----')[0]
-                print(lines_split)
-                
-                
+                lines_split=line.split('----')[0] # 分割成数据
+                my_dictionary[lines_split[0]]=lines_split[1] # 添加到字典
+        return my_dictionary
 
-   
-        return count
-
-    @staticmethod
-    # 读取指定目录下的所有图片
-    def read_images_from_folder(folder_path: str) -> List[np.ndarray]:
-        """
-        读取指定目录及其子目录下的所有图片，并将图片数据存入一个列表中返回。
-
-        :param folder_path: 目标目录的路径字符串
-        :return: 包含所有读取到的图片数据的numpy数组列表
-        """
-        supported_formats = ("*.jpg", "*.jpeg", "*.png")  # 支持的图片格式
-        image_paths: List[str] = [
-            os.path.join(dp, f)
-            for dp, dn, fn in os.walk(folder_path)
-            for f in fn
-            if f.endswith(supported_formats)
-        ]
-
-        images: List[np.ndarray] = []
-        for img_path in image_paths:
-            try:
-                img: np.ndarray = cv2.imread(img_path)
-                if img is not None:
-                    images.append(img)
-            except cv2.error as e:
-                print(f"Error reading image from path '{img_path}': {e}")
-
-        return images
-    
-    
-    @staticmethod
-    # 获取指定目录下的所有子目录的第一张图片 返回base64编码
-    def find_first_image_in_each_subdir(parent_dir):
-    # 定义图片文件扩展名集合
-        image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.gif')
-
-    # 存储结果的字典，key为子目录名，value为图片内容（base64编码）
-        result_dict = {}
-
-    # 遍历父目录及其所有子目录
-        for root, dirs, files in os.walk(parent_dir):
-        # 只考虑子目录
-            if root != parent_dir:
-            # 查找符合图片扩展名的文件
-                for filename in files:
-                   if filename.lower().endswith(image_extensions): # 判断文件扩展名 是否为图片格式
-                        print(filename)
-                    # 找到第一张图片
-                        # 找到第一张图片 拼接路径 替换 \ 为 /
-                        image_path = os.path.join(root, filename).replace("\\", "/")
-                        print(image_path)
-                          # 读取图片内容并转换为 base64 编码
-                        with io.BytesIO() as output:
-                            img = Image.open(image_path)
-                            img.save(output, format='PNG')
-                            image_content = output.getvalue()
-                            base64_image = base64.b64encode(image_content).decode('utf-8')
-                        
-                        
-                       
-                        # 存储图片内容
-                        result_dict[root] =  base64_image
-                        break  # 找到后跳出当前子目录的文件循环
-        return result_dict
-
-        
-
+ 
     @staticmethod
     # base64字符串转图片
     def base64_to_image(base64_string: str):

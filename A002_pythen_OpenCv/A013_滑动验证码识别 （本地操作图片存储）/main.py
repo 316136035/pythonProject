@@ -1,10 +1,11 @@
-from Utils.ImgUtils.ImgUtils import ImgUtils
+from Utils.Utils_Img import Utils_Img 
 from My_requests.my_requests import HttpRequest
 import cv2
 import os
 
 #定义目录
-all_img_path = "./different_pictures"
+local_Storage= "./local_Storage"
+file_name="picture_storage.txt"
 # 定义请求url
 base_url= "https://iv.jd.com"
 # 定义请求endpoint
@@ -39,65 +40,39 @@ headers = {
 # 初始化请求对象
 HttpRequest=HttpRequest(base_url)
 # 初始化图片工具对象
-ImgUtils=ImgUtils()
-response=HttpRequest.get(endpoint,params,headers)
-# 使用完后关闭会话
-response.close()
-# 将响应转换为json对象
-Json_object=ImgUtils.Json_explanation(response)
+Utils_Img =Utils_Img ()
 
-different_pictures={} #定义一个字典存放背景不同的图片
-#定义一个变量
-is_similarity_img_recognition=True #定义一个变量
- 
-# 获取图片
-def get_image(endpoint,params,headers):
-    img_data=HttpRequest.get(endpoint,params,headers) #获取响应体
-    Json_object=ImgUtils.Json_explanation(img_data) #将响应转换为json对象
-    img=ImgUtils.base64_to_image(Json_object.get("bg")) #将base64转换为图片
-    return img
+# 获取base64格式图片
+def get_base64_img(endpoint,params,headers):
+    response=HttpRequest.get(endpoint,params,headers) # 发送请求
+    Json_object=Utils_Img.Json_explanation(response)# 解析json
+    if Utils_Img.is_image_base64(Json_object.get("bg")): # 判断是否是base64图片
+        print("是base64图片")
+        return Json_object.get("bg")
+    else: # 不是base64图片
+        print("不是base64图片 递归再次获取.....保证获取成功") 
+        get_base64_img(endpoint,params,headers)
+
+
+#判断目录是否存在？存在返回True 不存在返回False并创建目录和文件
+if Utils_Img.create_directories_an_create_files(local_Storage, file_name):
+    print("目录存在")
+else:
+    print("目录不存在并创建目录和文件成功！！")
+    base64_img1=get_base64_img(endpoint,params,headers) #获取base64格式图片
+    base64_img2=get_base64_img(endpoint,params,headers) #获取base64格式图片
     
-    # 存储图片到字典和目录
-def stored_dictionaries_and_directories(img,all_img_path,str_length=10,seed_value=88):
-    strlist=ImgUtils.generate_unique_random_strings(length=str_length,seed_value=seed_value,count=len(different_pictures)) #生成随机字符串 count函数默认+1 函数返回一个列表 
-    if ImgUtils.create_directory(all_img_path+"/"+strlist[len(different_pictures)]): #判断目录是否存在 不存在就创建
-        print("目录创建成功")
-    num=ImgUtils.count_amount_images_in_folder(all_img_path+"/"+strlist[len(different_pictures)]) #计算目录下图片数量
-    cv2.imwrite(all_img_path+"/"+strlist[len(different_pictures)]+"/"+strlist[len(different_pictures)]+"_"+str(num)+".jpg",img) #将图片写入目录
-    different_pictures[strlist[len(different_pictures)]]=img #将图片放入字典
+    img1=Utils_Img.base64_to_image(base64_img1) 
+    img2=Utils_Img.base64_to_image(base64_img2) 
+    Utils_Img.similarity_img_recognition(img1,img2)
+    if Utils_Img.similarity_img_recognition(img1,img2)==True:
+        
+        print("图片相似")
+    else:
+        print("图片不相似")
     
-        
+     
+    
+    
+    
 
-
-for i in range(1,100):
-   if different_pictures == {}:
-       
-       
-      print("存储中different_pictures字典为空"+str(i))
-      new_img= get_image(endpoint,params,headers)
-      stored_dictionaries_and_directories(new_img,all_img_path,10,88)
-   else:
-      print("存储中different_pictures字典不为空"+str(i))
-      newimg=get_image(endpoint,params,headers)
-      for key,img in different_pictures.items():
-   
-      
-        if ImgUtils.similarity_img_recognition(img,newimg)==True:  #判断图片是否相似 相同会返回True
-            print("相似度判断开始,存储中different_pictures字典",key )
-            is_similarity_img_recognition=False 
-            break
-            
-        else:
-            print("相似度判断结束")
-      #如果全部图片都不相似
-      if is_similarity_img_recognition:
-        print("全部图片都不相似")
-        stored_dictionaries_and_directories(newimg,all_img_path,str_length=10,seed_value=88)
-        
-  
- 
-  
-  
-   
-
- 
