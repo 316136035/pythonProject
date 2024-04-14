@@ -1,22 +1,15 @@
 import json
 import base64
-import numpy as np
 import cv2
-
 import os
-from glob import glob
-
-
 import numpy as np
 import binascii
 import random
 import string  
-
-
-import base64
 from io import BytesIO
-import imghdr
-
+import  imghdr
+from My_requests.my_requests import HttpRequest
+import re
 
 
 class Utils_Img:
@@ -38,7 +31,7 @@ class Utils_Img:
                 json_str = response.text.split("(", 1)[1].rstrip(")")
                 # 将 JSON 字符串转换为 Python 字典
                 json_obj = json.loads(json_str)
-                # 返回 JSON 对象
+                # 返回 JSON 字典
                 return json_obj
             except (IndexError, json.JSONDecodeError):
                 print("json.loads(json_str)异常")
@@ -47,17 +40,19 @@ class Utils_Img:
     # 判断是否是base64格式的图片
     @staticmethod
     def is_image_base64(base64_string):
-    # 尝试解码Base64字符串
         try:
-            data = base64.b64decode(base64_string)
-        except (TypeError, binascii.Error):  # 如果不是有效的Base64数据会抛出异常
-            return False
-    
-     # 检查字节流的头部来初步判断图片类型
-        file_type = imghdr.what(BytesIO(data))
-    
-        # 如果imghdr.what返回了非None值，则表明数据可能是某种图片类型
-        return file_type is not None
+            pattern = re.compile(r'^iV')  # 匹配以 "iV" 开头的字符串
+            if  pattern.match(base64_string): # 判断是否匹配
+                decoded_data = base64.b64decode(base64_string) # 解码base64字符串
+                img_type  = imghdr.what(None, decoded_data) # 判断图片类型
+                 # 返回图片类型，若返回非None，则表示是图片
+                return base64_string
+           
+        except Exception as e:
+            print(f"判断是否是base64格式的图片异常:",{e},"base64_string",base64_string)
+            return None
+            
+   
 
 # 使用示例
      
@@ -82,10 +77,10 @@ class Utils_Img:
             hist1, hist2, method
         )  # 比较两个直方图 返回值是相似度
         if similarity_score > 0.9:  # 相似度大于0.9
-            print("两张图像相似....")
+            # print("两张图像相似....")
             return True
         elif similarity_score < 0.9:  # 相似度小于 0.9:
-            print("两张图像不相似！！！")
+            # print("两张图像不相似！！！")
             return False
     
     @staticmethod
@@ -133,15 +128,24 @@ class Utils_Img:
                 lines_split=line.split('----')[0] # 分割成数据
                 my_dictionary[lines_split[0]]=lines_split[1] # 添加到字典
         return my_dictionary
-
+    @staticmethod
     # 统计picture_storage.txt文件中相似度相同同的图片 存放在数组中返回
     def Images_with_the_same_statistical_similarity(local_Storage,file_path,img_name):
-        pass
-        
+        my_list =[]# 定义数组 存放相同的图片
+        with open(os.path.join(local_Storage,file_path), 'r') as file:
+            while True:
+                line =file.readline() # 一行一行读取
+                if not line: # 读取到文件末尾
+                    break
+                lines_split=line.split('----')[0] # 分割成数据
+                my_list.append(lines_split[1]) # 添加到数组中
+        return my_list
+   
     @staticmethod
     # base64字符串转图片
     def base64_to_image(base64_string: str):
         try:
+
             # 解码Base64字符串  据Base64编码规则计算需要补充的'='数量
             padding_needed = (4 - len(base64_string) % 4) % 4
             base64_string += '=' * padding_needed
@@ -154,7 +158,7 @@ class Utils_Img:
             img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             return img_gray # 转换成功
         except binascii.Error as e:
-            print(f"解码错误: {e}","base64_string:",base64_string)
+            print(f" base64字符串转图片解码错误: {e}","解码错误base64_string:",base64_string)
             return None  # 转换失败
 
     @staticmethod
@@ -185,7 +189,7 @@ class Utils_Img:
 
         result = []
         # 循环生成指定数量的字符串
-        for _ in range(count+1):
+        for _ in range(count):
             while True:
                 # 生成随机字符串
                 random_string = "".join(random.choices(chars, k=length))
@@ -198,3 +202,11 @@ class Utils_Img:
 
         return result
     
+
+
+
+
+
+
+
+
