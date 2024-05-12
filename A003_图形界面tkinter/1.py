@@ -1,5 +1,6 @@
 import tkinter as tk
-
+from datetime import datetime
+import os
 
 # 定义一个函数，用于将窗口居中于屏幕 参数：root：窗口实例，width：窗口宽度，height：窗口高度
 def center_window(root, width, height):
@@ -13,17 +14,26 @@ def center_window(root, width, height):
     )  # 设置窗口大小和位置
 
 
-# 创建Tkinter窗口实例
 root = tk.Tk()
 
 # 设置窗口的宽度和高度
 window_width = 800
 window_height = 600
 
+
+
+
+current_working_dir = os.getcwd()
+img_path = current_working_dir + "/images/1.png"
+img=tk.PhotoImage(file=img_path)
+
+img_label=tk.Label(root, image=img)
+img_label.pack(fill="none", expand=tk.YES, side=tk.TOP, anchor="center", padx=0, pady=0)
+
 # 调用函数以使窗口居中 参数：root：窗口实例，width：窗口宽度，height：窗口高度
 center_window(root, window_width, window_height)
-# 设置窗口不可缩放
-root.resizable(False, False)
+
+
 
 # 窗口主循环
 root.mainloop()
