@@ -22,7 +22,7 @@ window_height = 600
 
 # 调用函数以使窗口居中 参数：root：窗口实例，width：窗口宽度，height：窗口高度
 center_window(root, window_width, window_height)
-# 设置窗口不可缩放
+# 设置窗口不可缩放参数：width：窗口宽度，height：窗口高度
 root.resizable(False, False)
 
 # 窗口主循环
