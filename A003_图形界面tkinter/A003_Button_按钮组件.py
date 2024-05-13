@@ -59,10 +59,11 @@ class Application(tk.Frame):
         img_path = os.path.join(current_path, "images", "确认按钮.png")  # 拼接图片路径
         img = tk.PhotoImage(file=img_path)  # 创建PhotoImage对象
         self.button_Img = tk.Button(self,
-                                     command=self.button_Img,  # 当按钮被点击时调用的函数。
+                                    command=self.button_Img,  # 当按钮被点击时调用的函数。
                                     image=img, ## image: 如果要显示图片，可以使用此选项指定一个PhotoImage对象。
                                     width=200,  # 按钮的宽度（以字符为单位）。
-                                    height=100  # 按钮的高度（以行数为单位）。
+                                    height=100 , # 按钮的高度（以行数为单位）。
+                                    state=("active"), # 按钮的状态，如 "normal", "active", "disabled"。
                                     ) 
         self.button_Img.pack() # 显示图片按钮
 
