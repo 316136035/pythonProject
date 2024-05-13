@@ -10,7 +10,7 @@ class Application(tk.Frame):
         super().__init__(
             master, bg="lightblue"
         )  # super()函数用于调用tk.Frame父类的方法  把Frame容器放到master父容器
-        master.title("A001_窗口定义")  # 设置窗口标题
+        master.title("A003_Button_按钮组件")  # 设置窗口标题
         self.master = master  # 设置窗口父容器
         self.center_window(800, 600)  # 调用窗口居中函数
         self.create_widgets()  # 调用窗口组件函数
@@ -67,8 +67,6 @@ class Application(tk.Frame):
                                     ) 
         self.button_Img.pack() # 显示图片按钮
 
-    #  image =(PhotoImage),#设置按钮的图像，如果同时设置了 bitmap，则忽略此选项。
-    #  ibitmap =(BitmapImage),:#设置位图图像，如果设置了 image，则忽略此选项。
 
     def button_LongIn(self):
         print("登录")

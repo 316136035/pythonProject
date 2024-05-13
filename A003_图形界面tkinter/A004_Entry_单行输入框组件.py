@@ -1,59 +1,43 @@
 import tkinter as tk
-from tkinter import messagebox # 导入messagebox模块 提示框
+import os
+from datetime import datetime
 
 
-# 定义一个函数，用于将窗口居中于屏幕 参数：root：窗口实例，width：窗口宽度，height：窗口高度
-def center_window(root, width, height):
-    """将窗口居中于屏幕"""
-    screen_width = root.winfo_screenwidth()  # 获取屏幕宽度
-    screen_height = root.winfo_screenheight()  # 获取屏幕高度
-    x_coordinate = int((screen_width / 2) - (width / 2))  # 计算窗口的x坐标
-    y_coordinate = int((screen_height / 2) - (height / 2))  # 计算窗口的y坐标
-    root.geometry(
-        f"{width}x{height}+{x_coordinate}+{y_coordinate}"
-    )  # 设置窗口大小和位置
-def login():
-    username = username_entry.get()
-    password = password_entry.get()
-    
-    # 这里只是一个示例，你可以替换为实际的验证逻辑
-    if username == "admin" and password == "password":
-        messagebox.showinfo("登录成功", "欢迎，管理员！")
-    else:
-        messagebox.showerror("登录失败", "用户名或密码错误，请重试。")
-def focusin():
-    print("当输入框获得焦点时验证")
+# 定义 窗口类 继承自tk.Frame的类。这意味着Application类将拥有tk.Frame类的所有属性和方法  Frame是一个容器类
+class Application(tk.Frame):
+    # 构造器 # master: 窗口的父容器
+    def __init__(self, master=None):
+        super().__init__(
+            master, bg="lightblue"
+        )  # super()函数用于调用tk.Frame父类的方法  把Frame容器放到master父容器
+        master.title("A004_Entry_单行输入框组件")  # 设置窗口标题
+        self.master = master  # 设置窗口父容器
+        self.center_window(800, 600)  # 调用窗口居中函数
+        self.create_widgets()  # 调用窗口组件函数
+        self.pack(
+            fill=tk.BOTH, expand=True
+        )  # 设置容器类布局 通过fill=tk.BOTH），而且当父容器的大小发生变化时，Frame也会随之扩大以继续填充父容器（通过expand=True）
 
-# 创建窗口
-root = tk.Tk()
-root.title("登录界面")
+    # 定义一个函数，用于将窗口居中于屏幕 参数：root：窗口实例，width：窗口宽度，height：窗口高度
+    def center_window(self, width, height):
+        """将窗口居中于屏幕"""
+        screen_width = root.winfo_screenwidth()  # 获取屏幕宽度
+        screen_heigh = root.winfo_screenheight()  # 获取屏幕高度
+        x_coordinate = int((screen_width / 2) - (width / 2))  # 计算窗口的x坐标
+        y_coordinate = int((screen_heigh / 2) - (height / 2))  # 计算窗口的y坐标
+        self.master.geometry(
+            f"{width}x{height}+{x_coordinate}+{y_coordinate}"
+        )  # 设置窗口大小和位置
 
-# 设置窗口的宽度和高度
-window_width = 800
-window_height = 600
+    # 创建窗口组件
+    def create_widgets(self):
+        pass
+   
+    def button_LongIn(self):
+        print("登录")
+    def button_Img(self):
+        print("图片按钮")
 
-# 用户名标签和输入框
-username_label = tk.Label(root, text="用户名:")
-username_label.pack()
-# Entry_单行输入框组件
-#'none'（默认）：关闭验证。'focusout'：当输入框失去焦点时验证。'focusin'：当输入框获得焦点时验证。'key'：在每次按键后验证（最常用，实时验证）。'all'：在所有情况下验证（包括键盘输入、粘贴等）
-username_entry = tk.Entry(root,validate="focusin",validatecommand=focusin)
-username_entry.pack()
-
-
-# 密码标签和输入框
-password_label = tk.Label(root, text="密码:")
-password_label.pack()
-password_entry = tk.Entry(root, show="*")  # 使用show="*"隐藏密码
-password_entry.pack()
-
-# 登录按钮
-login_button = tk.Button(root, text="登录", command=login)
-login_button.pack()
-
-# 调用函数以使窗口居中 参数：root：窗口实例，width：窗口宽度，height：窗口高度
-center_window(root, window_width, window_height)
-
-
-# 窗口主循环
-root.mainloop()
+root = tk.Tk()  # 创建主窗口
+app = Application(master=root)  # 创建Application对象
+app.mainloop()  # 进入消息循环
