@@ -34,14 +34,14 @@ class Application(tk.Frame):
         self.button_LongIn = tk.Button(
             self,
             text=("按钮"),  # 按钮上显示的文本。
-            command=(callable),  # 当按钮被点击时调用的函数。
+            command=self.button_LongIn,  # 当按钮被点击时调用的函数。
             bg=('limegreen'),  # 按钮的背景颜色。
             fg=('khaki'),  # 按钮上的文字颜色。
             activebackground=('red'),  # 当鼠标悬停在按钮上时的背景颜色。
             activeforeground=('whitesmoke'),  # 当鼠标悬停在按钮上时的文字颜色。
             font=( ("Arial", 12, "bold")),  # 按钮文本的字体样式，如 ("Arial", 12, "bold")。
-            width=(20),  # 按钮的宽度（以字符为单位）。
-            height=(200),  # 按钮的高度（以行数为单位）。
+            # width=(10),  # 按钮的宽度（以字符为单位）。
+            # height=(10),  # 按钮的高度（以行数为单位）。
             relief=("flat"),  # 按钮边缘样式，如 "flat", "groove", "raised", "ridge", "solid", "sunken"。
             bd=(1),  # 按钮边框的宽度。
             padx=(1),  # 按钮内边距水平方向的空白空间，可以是单个数字或(左, 右)的元组。
@@ -50,13 +50,25 @@ class Application(tk.Frame):
             state=('active'),  # 按钮的状态，如 "normal", "active", "disabled"。
             compound=("top"),  # 文本和图像的组合方式，如 "top", "bottom", "left", "right", "center"，当同时有文本和图像时使用。
             # textvariable=(StringVar),  # 与一个Tkinter变量绑定，使得按钮上的文本可以动态更新。
-            underline=(1),  # 按钮文本下划线的起始位置，从0开始计数。
-        )
+            underline=(2),  # 按钮文本下划线的起始位置，从0开始计数。
+        ).pack()
+        
+        """ 图片按钮 """
+        global img # 全局变量
+        current_path = os.getcwd()# 获取当前工作目录，通常是项目路径
+        img_path = os.path.join(current_path, "images", "确认按钮.png")  # 拼接图片路径
+        img = tk.PhotoImage(file=img_path)  # 创建PhotoImage对象
+        self.button_Img = tk.Button(self,
+                                    image=img, ## image: 如果要显示图片，可以使用此选项指定一个PhotoImage对象。
+                                    width=200,  # 按钮的宽度（以字符为单位）。
+                                    height=100  # 按钮的高度（以行数为单位）。
+                                    ) 
+        self.button_Img.pack() # 显示图片按钮
 
     #  image =(PhotoImage),#设置按钮的图像，如果同时设置了 bitmap，则忽略此选项。
     #  ibitmap =(BitmapImage),:#设置位图图像，如果设置了 image，则忽略此选项。
 
-    def LongIn(self):
+    def button_LongIn(self):
         print("登录")
 
 
