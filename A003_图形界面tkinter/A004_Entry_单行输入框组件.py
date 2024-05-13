@@ -1,7 +1,7 @@
 import tkinter as tk
 import os
 from datetime import datetime
-from messagebox import messagebox
+from tkinter import messagebox
 
 
 # 定义 窗口类 继承自tk.Frame的类。这意味着Application类将拥有tk.Frame类的所有属性和方法  Frame是一个容器类
