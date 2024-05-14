@@ -1,5 +1,6 @@
 import tkinter as tk
 import os
+import webbrowser
 
 
 # 定义 窗口类 继承自tk.Frame的类。这意味着Application类将拥有tk.Frame类的所有属性和方法  Frame是一个容器类
@@ -47,6 +48,7 @@ class Application(tk.Frame):
         tk.Button(self, text="插入图片",command=self.insert_img).pack(side=tk.LEFT)
         tk.Button(self, text="插入组件",command=self.insert_module).pack(side=tk.LEFT)
         tk.Button(self, text="通过tag控制文件",command=self.tag_control_file).pack(side=tk.LEFT)
+        tk.Button(self, text="通过tag控制文件字符串设置为按钮",command=self.tag_control_file_button).pack(side=tk.LEFT)
         
   
 
@@ -78,8 +80,15 @@ class Application(tk.Frame):
         self.text_module.insert(tk.END, "通过tag控制文件")
         self.text_module.tag_add("tag", "1.2", "1.5") # 添加一个名为"red"的tag，并指定范围
         self.text_module.tag_config("tag",background="green", foreground="white") # 配置"red"标签的样式，设置前景色为红色
-        self.text_module.tag_bind("tag", "<Button-1>", lambda event: print("点击了标签"))
-     
+    """ 通过tag控制文件字符串设置为按钮 """
+    def tag_control_file_button(self):
+        self.text_module.insert(tk.END, "***按钮***") # 插入文本
+        self.text_module.tag_add("button", "1.3", "1.5") # 添加一个名为"red"的tag，并指定范围
+        self.text_module.tag_config("button",background="green", foreground="white") # #配置"button"标签的样式，设置前景色为红色
+        self.text_module.tag_bind("button", "<Button-1>", lambda event: self.tag_control_file_button_shou()) # 绑定"button"标签，当鼠标左键单击时执行回调函数
+    """ 当鼠标左键单击时执行回调函数 """
+    def tag_control_file_button_shou(self):
+         webbrowser.open("https://passport.jd.com/uc/login?ltype=logout&ReturnUrl=https://order.jd.com/center/list.action#/")
 root = tk.Tk()  # 创建主窗口
 app = Application(master=root)  # 创建Application对象
 app.mainloop()  # 进入消息循环
