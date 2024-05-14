@@ -30,8 +30,37 @@ class Application(tk.Frame):
             f"{width}x{height}+{x_coordinate}+{y_coordinate}"
         )  # 设置窗口大小和位置
 
+
+    """ height (int): 文本框的高度，以文本行数为单位，默认为一列。
+
+width (int): 文本框的宽度，以字符单位计数，默认值取决于系统。
+
+bg / background (color): 文本框的背景颜色。
+
+fg / foreground (color): 文本的前景色（即文本颜色）。
+
+font (tuple or str): 字体样式，例如("Arial", 12)。
+
+wrap (str): 文本换行方式，可以是"char"（在字符边界换行）、"word"（在单词边界换行）或"none"（不自动换行）。
+
+bd / borderwidth (int): 边框宽度。
+
+relief (str): 边框样式，如"SUNKEN", "RAISED", "GROOVE", "RIDGE", 或 "FLAT"。
+
+insertbackground (color): 插入光标的颜色。
+
+insertwidth (int): 插入光标的宽度。
+
+state (str): 控制文本框的状态，如"normal"（可编辑）、"disabled"（不可编辑）或"readonly"（只读）。
+
+undo (bool): 是否允许撤销/重做功能，默认False。
+
+yscrollcommand (function): 绑定一个滚动条，用于垂直滚动。需要与Scrollbar组件一起使用。
+
+xscrollcommand (function): 绑定一个滚动条，用于水平滚动。同样需要与Scrollbar组件配合使用。 """
     # 创建窗口组件
-    def create_widgets(self):
+    def create_widgets(self
+                       ):
         
         self.username = tk.StringVar()
         self.Lable_username = tk.Text()
