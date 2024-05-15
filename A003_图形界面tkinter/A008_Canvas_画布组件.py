@@ -29,36 +29,11 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
+        self.Canvas = tk.Canvas(self, bg="lightblue", width=800, height=600)
+        self.Canvas.pack(fill=tk.BOTH, expand=True)
+       
    
-        # 定义选项元组
-        self.options_tuple = ("选项A", "选项B", "选项C", "选项D")
-        # 使用字典来追踪每个选项的选中状态
-        self.selected_options = {option: 0 for option in self.options_tuple}
-        
-        # 创建Checkbuttons并布局
-        for option in self.options_tuple:
-            var = tk.IntVar()  # 每个Checkbutton都需要自己的Tkinter变量
-            self.checkbutton = tk.Checkbutton( root,
-                        text=option, # 显示的文本
-                        variable=var, # 绑定Tkinter变量
-                        onvalue=1, # 选中时的值
-                        offvalue=0, # 未选中时的值
-                        command=lambda opt=option, var=var: self.on_checkbutton_change(opt, var)
-                        )
-            self.checkbutton.pack(anchor="w")  # 使用anchor="w"保持选项左对齐
-             
-        # 创建一个按钮来打印选中的选项
-        print_button = tk.Button(root, text="打印选中项", command=self.print_selected_options)
-        print_button.pack(pady=10)
-    def on_checkbutton_change(self,option, var):
-        print(f"{option} 选中状态: {var.get()}")
-        """当Checkbutton状态改变时调用的回调函数，更新选中状态字典"""
-        self.selected_options[option] = var.get() # 更新选中状态字典
-  
-    def print_selected_options(self):
-        """打印当前选中的选项 遍历选项元组，并打印出选中的选项"""
-        print("选中的选项:", [option for option, selected in self.selected_options.items() if selected])
-
+      
 
    
    
