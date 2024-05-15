@@ -30,6 +30,7 @@ class Application(tk.Frame):
     # 创建窗口组件
     def create_widgets(self):
         self.Canvas = tk.Canvas(self, bg="lightblue", width=800, height=600)
+        self.Canvas.create_line(0, 0, 800, 600, fill="red")
         self.Canvas.pack(fill=tk.BOTH, expand=True)
        
    
