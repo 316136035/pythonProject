@@ -54,6 +54,7 @@ class Application(tk.Frame):
         print(f"{option} 选中状态: {var.get()}")
         """当Checkbutton状态改变时调用的回调函数，更新选中状态字典"""
         self.selected_options[option] = var.get() # 更新选中状态字典
+  
     def print_selected_options(self):
         """打印当前选中的选项 遍历选项元组，并打印出选中的选项"""
         print("选中的选项:", [option for option, selected in self.selected_options.items() if selected])
