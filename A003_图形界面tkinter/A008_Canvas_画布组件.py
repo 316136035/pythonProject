@@ -29,9 +29,19 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
+        # 创建画布 参数：父容器，背景颜色，宽度，高度
         self.Canvas = tk.Canvas(self, bg="lightblue", width=800, height=600)
-        self.Canvas.create_line(0, 0, 800, 600, fill="red")
-        self.Canvas.pack(fill=tk.BOTH, expand=True)
+        
+        # 画直线/线段 参数：x1,y1,x2,y2,x3,y3,x4, 线的颜色
+        self.Canvas.create_line(0,400,100,600,150,400,160,450 ,170,50,fill="red")
+        self.Canvas.pack(fill=tk.BOTH, expand=True)#设置容器类布局 参数：fill=tk.BOTH），而且当父容器的大小发生变化时，Frame也会随之扩大以继续填充父容器（通过expand=True）
+       
+        #画矩形：参数：x1,y1,x2,y2,线的颜色
+        self.Canvas.create_rectangle(100,100,200,200,fill="green")
+        
+        #画圆 参数：x1,y1,x2,y2,线的颜色
+        self.Canvas.create_oval(300,300,400,400,fill="blue")
+        
        
    
       
