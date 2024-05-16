@@ -29,6 +29,7 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
+        # 输入框 参数：父容器 列数 行数 列宽 行高
         tk.Entry(self).grid(row=0, column=0, columnspan=4, pady=10, padx=10)
         button_text = (
             ("MC", "MR", "M+", "M-"),
@@ -38,15 +39,20 @@ class Application(tk.Frame):
             ("1", "2", "3", "="),
             ("0", "."),
         )
+        # 循环创建按钮
         for index, columns_text in enumerate(button_text):
+            # 创建列
             for i, text in enumerate(columns_text):
-                if text == "=":
-                     tk.Button(self, text=text).grid(row=index + 1, column=i, rowspan=2, sticky="NSEW")
-                elif text == "0":
-                     tk.Button(self, text=text).grid(row=index + 1, column=i, columnspan=2, sticky="NSEW")
                
+                if text == "=": 
+                    # 创建按钮 参数：父容器，文本 grid布局参数：列，行 列偏移，多列或多行
+                    tk.Button(self, text=text).grid(row=index + 1, column=i, rowspan=2, sticky="NSEW") # 
+                elif text == "0":
+                     # 创建按钮 参数：父容器，文本 grid布局参数：列，行 列偏移，多列或多行
+                    tk.Button(self, text=text).grid(row=index + 1, column=i, columnspan=2, sticky="NSEW")
                 elif text == ".":
-                     tk.Button(self, text=text).grid(row=index + 1, column=i+1, sticky="NSEW")
+                     # 创建按钮 参数：父容器，文本 grid布局参数：列，行 列偏移，多列或多行
+                    tk.Button(self, text=text).grid(row=index + 1, column=i+1, sticky="NSEW")
                 else:
                     tk.Button(self, text=text).grid(row=index + 1, column=i, sticky="NSEW")
 
