@@ -41,7 +41,7 @@ class Application(tk.Frame):
                    #padx 和 pady:分别设置小部件在水平方向和垂直方向上的外部间距（即与其他小部件或容器边缘的距离）。
                    #ipadx 和 ipady:设置小部件在水平方向和垂直方向上的内部间距（即小部件内容与其边框的距离）。
                    
-                   columnspan=1,#columnspan 和 rowspan:让小部件跨越多列或多行。例如，columnspan=2会使小部件横跨两列。
+                   #columnspan 和 rowspan:让小部件跨越多列或多行。例如，columnspan=2会使小部件横跨两列。
                    #in_:指定小部件将被添加到哪个父容器中，通常省略，因为小部件已经被创建在特定容器中。
                   )
             
