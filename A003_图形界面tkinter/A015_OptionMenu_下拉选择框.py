@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import StringVar
+
 
 
 # 定义 窗口类 继承自tk.Frame的类。这意味着Application类将拥有tk.Frame类的所有属性和方法  Frame是一个容器类
