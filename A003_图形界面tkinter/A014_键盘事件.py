@@ -8,7 +8,7 @@ class Application(tk.Frame):
         super().__init__(
             master, bg="#0066FF"
         )  # super()函数用于调用tk.Frame父类的方法  把Frame容器放到master父容器
-        master.title("A011_place_绝对定位和相对定位_布局.")  # 设置窗口标题
+        master.title("A010_grid_网格布局")  # 设置窗口标题
         self.master = master  # 设置窗口父容器
         self.center_window(800, 600)  # 调用窗口居中函数
         self.create_widgets()  # 调用窗口组件函数
@@ -29,26 +29,21 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
-        tk.Label(self, text="指定组件左上角的x/y坐标").place(
-            x=10,#指定组件左上角的x坐标。
-            y=10,#指定组件左上角的y坐标。
-            anchor="nw",#指定对齐方式，可以是"N", "S", "E", "W", "NE", "NW", "SE", "SW"等，定义了当组件大小和位置需要调整时以哪个点作为参照。
-            width=200,#指定组件的宽度。
-            height=50,#指定组件的高度。
-            
-        )
-        tk.Label(self, text="相对于父组件宽度的x/y坐标（0.0到1.0之间的小数）").place(
-            relx=0.5,#相对于父组件宽度的x坐标（0.0到1.0之间的小数）
-            rely=0.5,#相对于父组件高度的y坐标（0.0到1.0之间的小数）
-            relwidth=0.1,#相对于父组件的宽度。（0.0到1.0之间的小数）
-            relheight=0.1,#相对于父组件的高度。（0.0到1.0之间的小数）
-        )
-
-      
-      
+        """ 键盘按键事件 """
+        #<KeyPress>：任意键按下。
+        #<KeyRelease>：任意键释放。
+        #<FocusIn>：控件获得焦点。tdh
+        #<FocusOut>：控件失去焦点。
+        my_Canvas=tk.Canvas(self, width=300, height=300, bg="white")
+        my_Canvas.pack()
+        my_Canvas.bind("<KeyPress>", self.myCanvas_KeyPress)
+        my_Canvas.bind("<KeyPress>", self.myCanvas_KeyRelease)
         
-
-
+    def myCanvas_KeyPress(self, event):  # 绑定事件
+        print("KeyPress:", event.char)
+    def myCanvas_KeyRelease(self, event):  # 绑定事件
+        print("KeyRelease:", event.char)    
+        
 root = tk.Tk()  # 创建主窗口
 app = Application(master=root)  # 创建Application对象
 app.mainloop()  # 进入消息循环

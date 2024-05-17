@@ -8,7 +8,7 @@ class Application(tk.Frame):
         super().__init__(
             master, bg="#0066FF"
         )  # super()函数用于调用tk.Frame父类的方法  把Frame容器放到master父容器
-        master.title("A010_grid_网格布局")  # 设置窗口标题
+        master.title("A010-2_grid_网格布局_计算器页面")  # 设置窗口标题
         self.master = master  # 设置窗口父容器
         self.center_window(800, 600)  # 调用窗口居中函数
         self.create_widgets()  # 调用窗口组件函数
