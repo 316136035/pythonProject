@@ -30,15 +30,25 @@ class Application(tk.Frame):
     # 创建窗口组件
     def create_widgets(self):
         """ 键盘按键事件 """
-        #<KeyPress>：任意键按下。
-        #<KeyRelease>：任意键释放。
+        #<KeyPress>：任意键按下。 <KeyPress-A>按下
+        #<KeyRelease>：任意键释放。 <KeyRelease-A>释放
         #<FocusIn>：控件获得焦点。tdh
         #<FocusOut>：控件失去焦点。
-        my_Canvas=tk.Canvas(self, width=300, height=300, bg="white")
-        my_Canvas.pack()
-        my_Canvas.bind("<KeyPress>", self.myCanvas_KeyPress)
-        my_Canvas.bind("<KeyPress>", self.myCanvas_KeyRelease)
         
+        self. master.bind("<KeyPress>", self.myCanvas_KeyPress)
+        """ 特定键事件 """
+        #<Return> 或 <KP_Enter>：回车键或小键盘上的Enter。
+        #<Escape>：Esc键。
+        #<BackSpace>：退格键。
+        #<Tab>：制表符。
+        #<Shift_L>/<Shift_R>：左/右Shift键。
+        #<Control_L>/<Control_R>：左/右Ctrl键。
+        #<Alt_L>/<Alt_R>：左/右Alt键。
+        #<Delete>：删除键。
+        #<Up>/<Down>/<Left>/<Right>：上下左右箭头键。
+        #<F1>-<F12>：功能键F1至F12。
+        #对于字母和数字键，直接使用字符即可，如"a"、"b"、"1"、"2"等，但需注意区分大小写。
+        #<space>：空格键。
     def myCanvas_KeyPress(self, event):  # 绑定事件
         print("KeyPress:", event.char)
     def myCanvas_KeyRelease(self, event):  # 绑定事件
