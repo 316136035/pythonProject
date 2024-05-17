@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import StringVar
+from tkinter import IntVar
 
 
 # 定义 窗口类 继承自tk.Frame的类。这意味着Application类将拥有tk.Frame类的所有属性和方法  Frame是一个容器类
@@ -9,7 +9,7 @@ class Application(tk.Frame):
         super().__init__(
             master, bg="#0066FF"
         )  # super()函数用于调用tk.Frame父类的方法  把Frame容器放到master父容器
-        master.title("A015_OptionMenu_下拉选择框")  # 设置窗口标题
+        master.title("A016_Scale_滑动条")  # 设置窗口标题
         self.master = master  # 设置窗口父容器
         self.center_window(800, 600)  # 调用窗口居中函数
         self.create_widgets()  # 调用窗口组件函数
@@ -30,23 +30,27 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
-         # 定义一个StringVar变量来存储选中的值(root确保这个变量与应用程序的生命周期绑定在一起)
-        self.variable = tk.StringVar(root)
-        self.variable.set("请选择...")  # 设置默认值
-        # 定义OptionMenu的选项列表
-        options = ["选项1", "选项2", "选项3", "选项4"]
-        # 创建OptionMenu小部件
-        option_menu = tk.OptionMenu(root, self.variable, *options)
-        option_menu.pack(pady=10)  # 打包到窗口并设置垂直填充
-        # 绑定选项变化事件到回调函数
-        self.variable.trace("w", self.on_option_select)  # "w" 表示写入操作，即值发生变化时
-    
-    def on_option_select( self,*args):
-        """选项改变时的回调函数"""
-        selected_value = self.variable.get()
-        print(f"你选择了: {selected_value}")
-        print(args)
+        # 定义IntVar变量
+        scale_var = tk.IntVar()  # 更改变量名为scale_var以避免命名冲突
+        # 定义Scale滑动条的属性
+        scale = tk.Scale(
+            root,  # 父容器
+            from_=0,  # 滑动条的最小值
+            to=100,  # 滑动条的最大值
+            orient=tk.HORIZONTAL,  # 方向，HORIZONTAL为水平，VERTICAL为垂直
+            length=200,  # 滑动条的长度
+            resolution=1,  # 改变的步长
+            tickinterval=10,  # 刻度间隔
+            showvalue=True,  # 是否显示当前值
+           variable=scale_var,  # 绑定的变量，可以是IntVar或DoubleVar
+            command=lambda value=scale_var: self.on_scale_change(value),  # 使用value作为参数名称
+            )
 
+        # 将滑动条放置到窗口上
+        scale.pack(pady=10)
+    def on_scale_change(self, value):  # 滑动时调用的回调函数
+        print(f"当前值：{value}")
+     
     
 root = tk.Tk()  # 创建主窗口
 app = Application(master=root)  # 创建Application对象
