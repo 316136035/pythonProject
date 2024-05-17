@@ -34,14 +34,14 @@ class Application(tk.Frame):
         tk.Button(
             self,
             text="获取目录路径",
-            command=self.get_directory_path,
+            command=self.get_directory_path, # 点击按钮后调用get_directory_path函数
         ).pack(side=tk.TOP)
         
          # 定义一个Button按钮
         tk.Button(
             self,
             text="读取文件路径",
-            command=self.read_file_name,
+            command=self.read_file_name, 
         ).pack(side=tk.TOP)
         
         

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import colorchooser
+from tkinter import simpledialog
 
 
 # 定义 窗口类 继承自tk.Frame的类。这意味着Application类将拥有tk.Frame类的所有属性和方法  Frame是一个容器类
@@ -30,16 +30,16 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
-        # 定义一个Button按钮
-        tk.Button(text="颜色选择框",command=self.color_selection_box).pack(side=tk.TOP)
-    
-    # 颜色选择框
-    def color_selection_box (self,*args):
-        color = tk.colorchooser.askcolor(title="颜色选择框")
-        if color[1] is not None:
-            print(f"你选择的颜色的 RGB 值为: {color[0]}")
-            print(f"对应的十六进制颜色为: {color[1]}")
-            self.config(bg=color[1]) # 设置Frame容器类背景颜色
+         tk.Button(
+            self,
+            text="选择颜色",
+            command=self.color_selection_box,
+            width=10,
+            height=2,
+        ).pack(pady=10)
+        
+       
+
 root = tk.Tk()  # 创建主窗口
 app = Application(master=root)  # 创建Application对象
 app.mainloop()  # 进入消息循环
