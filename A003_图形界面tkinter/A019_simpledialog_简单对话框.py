@@ -9,7 +9,7 @@ class Application(tk.Frame):
         super().__init__(
             master, bg="#0066FF"
         )  # super()函数用于调用tk.Frame父类的方法  把Frame容器放到master父容器
-        master.title("A017_ colorchooser包的askcolor_颜色选择框")  # 设置窗口标题
+        master.title("A019_simpledialog_简单对话框")  # 设置窗口标题
         self.master = master  # 设置窗口父容器
         self.center_window(800, 600)  # 调用窗口居中函数
         self.create_widgets()  # 调用窗口组件函数
@@ -30,13 +30,15 @@ class Application(tk.Frame):
 
     # 创建窗口组件
     def create_widgets(self):
-         tk.Button(
-            self,
-            text="选择颜色",
-            command=self.color_selection_box,
-            width=10,
-            height=2,
-        ).pack(pady=10)
+        tk.Button(self, text="简单对话框", command=self.Simple_Dialog_Box).pack(pady=10)
+   
+   
+    def Simple_Dialog_Box(self):
+        var=tk.StringVar()
+        var.set("初始值")
+        # 调用askstring函数，获取字符串 参数：title：标题，initialvalue：初始值，prompt：提示  还有其他函数
+        #askinteger（让用户输入整数）和askfloat（让用户输入浮点数）
+        tk.simpledialog.askstring(title="简单对话框", initialvalue=var.get(),prompt="请输入内容：")
         
        
 
