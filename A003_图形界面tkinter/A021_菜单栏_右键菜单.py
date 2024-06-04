@@ -60,7 +60,7 @@ class Application(tk.Frame):
         self.master.config(menu=self.mainMenu)  # 注意这里的menu关键字
         
         # 创建右键菜单
-        self.right_click_menu=Menu(self.master)
+        self.right_click_menu=tk.Menu(self.master)
         self.right_click_menu.add_command(label="新建", command=self.myShowinfo)
         # 绑定鼠标右键事件
         self.bind("<Button-3>", lambda event: self.contextMenu(event))
