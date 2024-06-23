@@ -10,7 +10,7 @@ def timer_decorator(func):
         return result  # 返回原始函数的结果
     return inner  
 
-@timer_decorator  # @timer_decorator 装饰器会将下面定义的func作为参数传给timer_decorator
+@timer_decorator  # @timer_decorator 装饰器同等于@timer_decorator=timer_decorator(my_func)
 def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
     print("my_func")
