@@ -1,16 +1,19 @@
 import time
 
 def timer_decorator(func):
-    def inner(*args, **kwargs):
-        print("函数执行前")  # 自定义执行前的函数
-        start = time.time()
-        result = func(*args, **kwargs)  # 确保函数结果被返回
-        end = time.time()
-        print("函数执行后:", end - start)  # 自定义执行后的函数
-        return result  # 返回原始函数的结果
-    return inner  
+    def outer(address):  # 定义一个函数，接收一个参数
+        print(address)
+        def inner(*args, **kwargs):
+            print("函数执行前")  # 自定义执行前的函数
+            start = time.time()
+            result = func(*args, **kwargs)  # 确保函数结果被返回
+            end = time.time()
+            print("函数执行后:", end - start)  # 自定义执行后的函数
+            return result  # 返回原始函数的结果
+        return inner  
+    return outer
 
-@timer_decorator  # @timer_decorator 装饰器会将下面定义的func作为参数传给timer_decorator
+@timer_decorator(address="广州")  # @timer_decorator (address="广州")装饰器会将下面定义的func作为参数传给timer_decorator
 def my_func(*args):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
     print("my_func")

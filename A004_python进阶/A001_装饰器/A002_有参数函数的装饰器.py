@@ -11,7 +11,7 @@ def timer_decorator(func):
     return inner  
 
 @timer_decorator  # @timer_decorator 装饰器会将下面定义的func作为参数传给timer_decorator
-def my_func(*args):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
+def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
     print("my_func")
     for i in args:
