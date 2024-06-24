@@ -12,9 +12,10 @@ def decorator(func):
     return inner  
 
 @decorator  # @decorator 装饰器同等于decorator=decorator(my_func)
+#被装饰的函数
 def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
-    print("my_func")
+    print("被装饰的函数执行了")
     for i in args:
         print(i)
     return "函数执行完毕"  # 添加一个返回值以便观察装饰器是否正确返回结果

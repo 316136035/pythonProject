@@ -10,7 +10,7 @@ def  decorator(func):
         print("函数执行后:",start-end)  #自定义执行的函数
     return inner  #返回自定义函数 
   
-
+#被装饰的函数
 @decorator  # @foor 装饰器同等于func=foor(func)
 def func ():
     time.sleep(3)
