@@ -1,17 +1,20 @@
 import time
 
-#定义装饰器
-def decorator(func):
-    def inner(*args, **kwargs):
-        print("函数执行前")  # 自定义执行前的函数
-        start = time.time()
-        result = func(*args, **kwargs)  # 确保函数结果被返回
-        end = time.time()
-        print("函数执行后:", end - start)  # 自定义执行后的函数
-        return result  # 返回原始函数的结果
-    return inner  
+#定义装饰器 带参数
+def decorator(address):
+    print("address:",address)
+    def outer (func):    
+        def inner(*args, **kwargs):
+            print("函数执行前")  # 自定义执行前的函数
+            start = time.time()
+            result = func(*args, **kwargs)  # 确保函数结果被返回
+            end = time.time()
+            print("函数执行后:", end - start)  # 自定义执行后的函数
+            return result  # 返回原始函数的结果
+        return inner  
+    return outer
 
-@decorator  # @decorator 装饰器同等于decorator=decorator(my_func)
+@decorator(address="广州")  # @decorator 装饰器同等于decorator=decorator(my_func)
 #被装饰的函数
 def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
