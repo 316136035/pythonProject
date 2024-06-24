@@ -1,6 +1,7 @@
 import time
 
-def foor(func):
+#定义装饰器
+def  decorator(func):
     def inner():
         print("函数执行前") #自定义执行的函数
         start=time.time()
@@ -10,7 +11,7 @@ def foor(func):
     return inner  #返回自定义函数 
   
 
-@foor  # @foor 装饰器同等于func=foor(func)
+@decorator  # @foor 装饰器同等于func=foor(func)
 def func ():
     time.sleep(3)
     print("func")

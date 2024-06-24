@@ -1,6 +1,7 @@
 import time
 
-def timer_decorator(func):
+#定义装饰器
+def decorator(func):
     def inner(*args, **kwargs):
         print("函数执行前")  # 自定义执行前的函数
         start = time.time()
@@ -10,7 +11,7 @@ def timer_decorator(func):
         return result  # 返回原始函数的结果
     return inner  
 
-@timer_decorator  # @timer_decorator 装饰器同等于@timer_decorator=timer_decorator(my_func)
+@decorator  # @decorator 装饰器同等于decorator=decorator(my_func)
 def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
     print("my_func")
