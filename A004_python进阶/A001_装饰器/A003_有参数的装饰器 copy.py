@@ -2,7 +2,7 @@ import time
 
 #定义装饰器 带参数
 def decorator(address):
-    print("address:",address)
+    print("address:",address) # 打印装饰器传入的参数
     def outer (func):    # 装饰器内部函数
         def inner(*args, **kwargs):
             print("函数执行前")  # 自定义执行前的函数
