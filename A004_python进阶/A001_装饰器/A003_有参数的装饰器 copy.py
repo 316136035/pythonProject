@@ -19,9 +19,8 @@ def decorator(address):
 def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
     print("被装饰的函数执行了")
-    for i in args:
-        print(i)
-    return "函数执行完毕"  # 添加一个返回值以便观察装饰器是否正确返回结果
+
+    return f"函数执行完毕{args}"  # 添加一个返回值以便观察装饰器是否正确返回结果
 
 result = my_func(1, 2, 3, 4)  # 调用装饰后的函数
 print(result)  # 打印函数返回值
