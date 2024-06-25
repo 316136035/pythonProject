@@ -14,7 +14,7 @@ def decorator(address):
         return inner  
     return outer
 
-@decorator(address="广州")  # @decorator 装饰器同等于decorator=decorator(my_func)
+@decorator(address="广州")  # @decorator 装饰器同等于decorator=decorator(address)在装饰器内部函数中传入函数
 #被装饰的函数
 def my_func(*args, **kwargs):  # 给 *args 指定了一个形参名args，保持与装饰器内部调用一致
     time.sleep(1)
