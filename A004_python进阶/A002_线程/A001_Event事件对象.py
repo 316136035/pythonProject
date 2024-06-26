@@ -32,9 +32,9 @@ if __name__ == '__main__':
     event.clear() # 重置事件对象
     # 启动线程
     startThreads = [myThread.start() for myThread in myThreads]
-    time.sleep(1)
+    time.sleep(10)
     event.set()  # 触发事件
-    # 等待线程结束 保证线程顺序输出
+    # 等待线程结束
     joinThreads = [myThread.join() for myThread in myThreads] 
     
     
