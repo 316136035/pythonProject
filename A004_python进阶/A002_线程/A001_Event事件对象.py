@@ -34,7 +34,7 @@ if __name__ == '__main__':
     startThreads = [myThread.start() for myThread in myThreads]
     time.sleep(10)
     event.set()  # 触发事件
-    # 等待线程结束
+    # 等待线程结束 # 主线程阻塞
     joinThreads = [myThread.join() for myThread in myThreads] 
     
     
