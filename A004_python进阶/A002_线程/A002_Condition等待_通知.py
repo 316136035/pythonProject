@@ -82,6 +82,7 @@ def main():
         thread = threading.Thread(target=producer.produce)
         threads.append(thread)
         thread.start()
+        
     for consumer in consumers:
         thread = threading.Thread(target=consumer.consume)
         threads.append(thread)
