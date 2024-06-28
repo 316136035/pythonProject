@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed,wait
 import threading
 import time
 
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         # print(f"判断任务是否完成:{future.done()}") # 判断任务是否完成  
         # print(f"判断任务是否取消:{future.cancelled()}") # 判断任务是否取消
         # print(f"任务状态：{future.running()}") # 判断任务是否正在运行
-        print(f"返回值：{future.result()}") # 获取任务返回值会阻塞直到任务完成 
+        print(f"返回值：{future.result(1)}") # 获取任务返回值会阻塞直到任务完成  参数为超时时间，超时返回None
         time.sleep(1)  # 模拟检查条件的时间延迟
         # 假设基于某些逻辑条件决定是否取消
         if not cancel_tasks :  # 替换some_condition()为实际的判断条件
@@ -46,4 +46,6 @@ if __name__ == '__main__':
     # 如果没有触发取消，确保最终关闭线程池
     if not cancel_tasks:
         executor.shutdown(wait=True)  # 等待所有任务完成再关闭线程池
+    
+    # wait() # 阻塞等待所有任务完成 
     print("主线程执行完毕")
