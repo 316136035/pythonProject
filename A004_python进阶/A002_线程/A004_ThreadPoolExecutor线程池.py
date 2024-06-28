@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed,map
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 import time
 
@@ -30,7 +30,10 @@ if __name__ == '__main__':
     # as_completed 遍历已完成的任务，优先处理先完成任务的返回值  
     # map 遍历已完成的任务，按线程提交的顺序返回值  
     for future in as_completed(add_task):
-        print(f"返回值：{future.result()}")
+        # print(f"判断任务是否完成:{future.done()}") # 判断任务是否完成  
+        # print(f"判断任务是否取消:{future.cancelled()}") # 判断任务是否取消
+        # print(f"任务状态：{future.running()}") # 判断任务是否正在运行
+        print(f"返回值：{future.result()}") # 获取任务返回值会阻塞直到任务完成 
         time.sleep(1)  # 模拟检查条件的时间延迟
         # 假设基于某些逻辑条件决定是否取消
         if not cancel_tasks :  # 替换some_condition()为实际的判断条件
