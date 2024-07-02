@@ -3,7 +3,7 @@ from collections.abc import Iterable  # 判断对象是否为可迭代对象
 
 list =[1,2,3,4,5,6,7,8,9,10]
 #查看列表的方法 是否包含__iter__和__getitem__ 实现了其中一个方法就是可迭代对象
-# print("列表:",dir(list))
+print("列表:",dir(list))
 print("isinstance判断列表是否为可迭代对象:",isinstance(list,Iterable))
 print("hasattr判断列表是否为可迭代对象:",hasattr(list,'__getitem__'))
 
