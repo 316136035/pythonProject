@@ -11,17 +11,18 @@ def consumer():
         
         
         
-# 生产者
-def producer(consumer,nuber):
+# 生产参数 消费者生成器
+def producer(consumer):
+    # 启动生成器
     consumer.send(None)
     n = 0
-    while n < nuber:
+    while True:
         n = n + 1
         print('生产者 %s...' % n)
         r = consumer.send(n)
         print('生产者接收到 %s' % r)
         time.sleep(1)
-    consumer.close()
+
     
 consumer=consumer()  # 创建生成器
-producer(consumer,100) # 生产者调用生成器消费
+producer(consumer) # 生产者调用生成器消费
