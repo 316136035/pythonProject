@@ -19,6 +19,7 @@ def producer(consumer):
     while True:
         n = n + 1
         print('生产者 %s...' % n)
+        #发送给消费者消费
         r = consumer.send(n)
         print('生产者接收到 %s' % r)
         time.sleep(1)
