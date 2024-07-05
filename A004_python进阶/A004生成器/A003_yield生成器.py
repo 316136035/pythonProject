@@ -1,7 +1,7 @@
 def countdown(value):
     # 生成器函数
     while value > 0:
-        # yield语句 中断函数执行 等待下次循环 在执行
+        # yield语句 中断函数执行 等待下次循环从yield语句后面处开始执行
         new_value=yield value
         # 如果new_value不为None，则将new_value赋值给value
         if new_value is not None:
