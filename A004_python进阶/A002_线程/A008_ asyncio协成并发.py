@@ -1,7 +1,10 @@
 import asyncio
 
+
+semaphore=asyncio.Semaphore(3) # 创建信号量对象，控制并发数
 # 定义一个协程
 async def coroutines(x):
+    semaphore
     # await 等待不会阻塞，模拟耗时操作
     await asyncio.sleep(x)
     return '我是协程!{}'.format(x) # 返回结果
@@ -13,7 +16,7 @@ def callback(task):
 # 创建事件循环对象并运行所有协程
 async def main():
     # 创建任务列表
-    tasks = [ asyncio.create_task(coroutines(i)) for i in range(1,10) ]
+    tasks = [ asyncio.create_task(coroutines(i)) for i in range(1,100) ]
     # 添加回调函数
     for task in tasks:
         # 添加回调函数
