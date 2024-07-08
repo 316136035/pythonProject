@@ -2,29 +2,29 @@ import asyncio # 导入异步IO库，用于支持异步操作
 
 import random # 导入random库，用于生成随机数
 
+from datetime import datetime
 # 异步请求处理类
 class AsyncRequestHandler:
     def __init__(self, max_concurrent_requests=3): # 初始化方法，设置最大并发请求数量，默认为3
         self.semaphore = asyncio.Semaphore(max_concurrent_requests) # 创建信号量对象，控制并发数
      
-        self.is_first_run = True  # 添加一个标记来标识是否是首次运行
-
+       
     # 内部异步请求处理方法
     async def _request(self, url):
         # 使用信号量限制并发数
-        async with self.semaphore:
+        async with self.semaphore:   
             # 在请求之前随机延迟
-            await asyncio.sleep(random.randint(10, 15))  # 设定延时时间为随机的10-15秒
-            
-            print(f"开始执行请求: {url}")
+            await asyncio.sleep(random.randint(10,11))  # 设定延时时间为随机的10-15秒
+            local_time = datetime.now()
+            print(f"开始请求{ url}--{local_time.second}秒")
             result = url  # 假设这里为获取结果的逻辑
-            
             return result
+
     async def _callback(self, future):
         """处理响应结果的回调函数"""
         try:
             result = await future
-            print(f"获取结果: {result}")
+            # print(f"获取结果: {result}")
    
         except Exception as e:
             print(f"请求失败: {e}")
@@ -43,7 +43,7 @@ class AsyncRequestHandler:
 # 主函数，用于启动异步请求处理
 def main():
     requests_data = [
-    {"url": f'http://example.com?id={idx}', "params": {'key1': f'value{idx}'}, "cookies": {'cookie1': f'value{idx}'}}
+    {"url": f'{idx}', "params": {'key1': f'value{idx}'}, "cookies": {'cookie1': f'value{idx}'}}
     for idx in range(1, 51)
     ]
     handler = AsyncRequestHandler() # 实例化异步请求处理类
