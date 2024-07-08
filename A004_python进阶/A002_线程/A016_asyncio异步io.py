@@ -19,18 +19,21 @@ class AsyncRequestHandler:
                     return await response.text() # 返回响应的文本内容
             except aiohttp.ClientError as e: # 捕获aiohttp客户端错误
                 print(f"请求{url}时发生错误: {e}") # 打印错误信息
-
+    async def _callback(self, future):
+        """处理响应结果的回调函数"""
+        try:
+            result = await future
+            print(f"获取结果: {result}")
+        except Exception as e:
+            print(f"请求失败: {e}")
     # 异步请求执行方法，用于发起批量异步请求
     async def execute_requests(self, requests_data):
         async with aiohttp.ClientSession(timeout=self.timeout) as session: # 创建aiohttp会话，设置超时策略
             tasks = [self._request(session, **data) for data in requests_data] # 创建任务列表，每个数据项转化为一个请求任务
-            responses = await asyncio.gather(*tasks, return_exceptions=True) # 收集所有任务的结果，异常返回为Exception对象
-            print("所有请求完成，响应结果为：") # 打印完成信息
-            for i, resp in enumerate(responses): # 遍历响应结果
-                if isinstance(resp, Exception): # 如果响应是异常
-                    print(f"请求{i}失败: {resp}") # 打印失败信息
-                else: # 如果响应不是异常
-                    print(f"请求{i}成功，结果为：{resp}") # 打印成功信息及结果
+                        # 使用asyncio.as_completed来监控任务完成状态
+            for future in asyncio.as_completed(tasks):
+                # 对每个完成的任务绑定回调函数
+                asyncio.create_task(self._callback(future))
 
 # 主函数，用于启动异步请求处理
 def main():
