@@ -21,7 +21,7 @@ def myThread(Time):
 def cancel_all_tasks(executor, futures):
     for future in futures:
         if not future.done():  # 只尝试取消未完成的任务
-            future.cancel()
+            future.cancel() 
     executor.shutdown(wait=False)  # 立即关闭线程池，不等待任务完成
 
 if __name__ == '__main__':
