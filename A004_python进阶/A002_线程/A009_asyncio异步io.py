@@ -24,7 +24,7 @@ class AsyncRequestHandler:
         """处理响应结果的回调函数"""
         try:
             result = await future
-            # print(f"获取结果: {result}")
+            print(f"获取结果: {result}")
    
         except Exception as e:
             print(f"请求失败: {e}")
