@@ -1,7 +1,7 @@
 class Stu :
     def __init__(self,name,age) -> None:
         self.name = name
-        self.age = age
+        self.__age = age   #伪私有属性 不能使用stu.__age 获取要用_Stu__age
     def __repr__(self) -> str:
         return f'{self.name} {self.age}'
       
@@ -12,3 +12,4 @@ print("-------------------------")
 print(stu.__dir__()) # 输出对象的属性和方法
 print("-------------------------")
 print(dir(Stu)) # 输出类属性和方法  不会打印方法中的属性
+print(stu._Stu__age)  #伪私有属性 不能使用stu.__age （__类名__属性名）
