@@ -17,6 +17,6 @@ print("-------------------------")
 stu.__dict__['name']='李四' # 修改实例属性
 print(stu.__dict__['name']) # 获取实例属性
 
-stu.__dict__['haha']='haha' # 添加实例属性
+stu.__dict__['gender']='男' # 添加实例属性
 print(stu.__dict__) # 获取实例属性
  
