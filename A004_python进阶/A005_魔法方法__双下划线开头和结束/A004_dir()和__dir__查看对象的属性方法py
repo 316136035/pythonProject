@@ -1,0 +1,14 @@
+class Stu :
+    def __init__(self,name,age) -> None:
+        self.name = name
+        self.age = age
+    def __repr__(self) -> str:
+        return f'{self.name} {self.age}'
+      
+stu=Stu('张三',18)
+
+print(dir(stu)) # 输出对象的属性和方法 内部调用了__dir__ 函数 做了排序
+print("-------------------------")
+print(stu.__dir__()) # 输出对象的属性和方法
+print("-------------------------")
+print(dir(Stu)) # 输出类属性和方法  不会打印方法中的属性
