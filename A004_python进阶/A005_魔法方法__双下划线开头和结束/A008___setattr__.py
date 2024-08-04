@@ -14,6 +14,8 @@ class Stu:
       if value < 0: # 负数
         raise ValueError('年龄不能为负数') # 抛出异常
       else:
+          self.__dict__[key] = value
+    else:
         self.__dict__[key] = value #设置属性 添加到字典中 不能用self.age=value 会死循环
 
 stu=Stu("张三",1)
