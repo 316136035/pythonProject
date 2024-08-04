@@ -6,7 +6,7 @@ class Stu:
     self.name = name
     self.age = age
     
-  # 重写函数设置属性事调用
+  # 重写函数当设置属性事调用
   # key:属性名 value:属性值
   def __setattr__(self, key, value) -> None:
     print(key,value)
