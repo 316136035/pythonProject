@@ -52,5 +52,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         # 等待客户端连接
         client_socket, addr = server_socket.accept()
         # 创建线程处理客户端连接
-        threading.Thread(target=client_socket_fun,args=(client_socket,addr)).start()
+        threading_socket=threading.Thread(target=client_socket_fun,args=(client_socket,addr))
+        threading_socket.start()
         print("客户端连接成功")
