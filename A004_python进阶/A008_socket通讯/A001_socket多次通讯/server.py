@@ -30,12 +30,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     client_socket, addr = server_socket.accept()
     with client_socket:
         print(f"连接来自 {addr}")
-        while True:
-            # 接收客户端消息
-            message = receive_message(client_socket)
-            if not message:
-                break
-            print(f"接收到消息: {message}")
-            # 发送响应消息
-            response = f"服务器收到了: {message}"
-            send_message(client_socket, response)
+        try:
+            while True:
+                # 接收客户端消息
+                message = receive_message(client_socket)
+                if message=="exit":
+                    break
+                print(f"接收到消息: {message}")
+                # 发送响应消息
+                response = f"服务器收到了: {message}"
+                send_message(client_socket, response)
+        except Exception as e:
+            print(f"客户端连接异常: {e}")
+    client_socket.close() # 关闭客户端套接字
