@@ -6,6 +6,7 @@ def send_message(sock, message):
     # 创建长度前缀，这里使用10个字节，不足的部分填充空格
     prefix = f"{len(encoded_message):<10}".encode()
     # 发送长度前缀和消息
+    print(f"服务器发送消息: {message}")
     sock.sendall(prefix + encoded_message)
 
 def receive_message(sock):
@@ -23,15 +24,15 @@ def receive_message(sock):
     return received_data.decode()
 
 
-def client_socket_fun(client_socke,addr):
+def client_socket_fun(client_socket, addr):
     # 处理客户端连接
-    with client_socke:
+    with client_socket:
         print(f"连接来自 {addr}")
         try:
             while True:
                 # 接收客户端消息
                 message = receive_message(client_socket)
-                if message=="exit":
+                if message == "exit":
                     break
                 print(f"接收到消息: {message}")
                 # 发送响应消息
@@ -39,13 +40,11 @@ def client_socket_fun(client_socke,addr):
                 send_message(client_socket, response)
         except Exception as e:
             print(f"客户端连接异常: {e}")
-    client_socket.close() # 关闭客户端套接字
-    
-    
+            client_socket.close()
 
 # 创建服务器套接字
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-    server_socket.bind(('localhost', 12345))
+    server_socket.bind(('0.0.0.0', 12345))
     server_socket.listen(1)
     print("等待客户端连接...")
     while True:
