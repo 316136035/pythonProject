@@ -40,7 +40,7 @@ def client_socket_fun(client_socket, addr):
                 send_message(client_socket, response)
         except Exception as e:
             print(f"客户端连接异常: {e}")
-            client_socket.close()
+
 
 # 创建服务器套接字
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
