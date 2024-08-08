@@ -31,6 +31,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         message = input("请输入消息 (输入 'exit' 退出): ")
         if message.lower() == 'exit':
             break
+        # 发送消息
         send_message(client_socket, message)
         # 接收响应
         response = receive_message(client_socket)

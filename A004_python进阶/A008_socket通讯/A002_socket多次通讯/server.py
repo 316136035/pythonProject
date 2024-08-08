@@ -17,21 +17,25 @@ def receive_message(sock):
     received_data = b''
     # 循环接收直到接收到完整的消息
     while len(received_data) < message_length:
-        # 接收数据
         chunk = sock.recv(min(4096, message_length - len(received_data)))
         received_data += chunk
     # 返回解码后的消息
     return received_data.decode()
 
-# 创建客户端套接字
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-    client_socket.connect(('localhost', 12345))
-    while True:
-        # 发送消息
-        message = input("请输入消息 (输入 'exit' 退出): ")
-        if message.lower() == 'exit':
-            break
-        send_message(client_socket, message)
-        # 接收响应
-        response = receive_message(client_socket)
-        print(f"服务器响应: {response}")
+# 创建服务器套接字
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+    server_socket.bind(('localhost', 12345))
+    server_socket.listen(1)
+    print("等待客户端连接...")
+    client_socket, addr = server_socket.accept()
+    with client_socket:
+        print(f"连接来自 {addr}")
+        while True:
+            # 接收客户端消息
+            message = receive_message(client_socket)
+            if not message:
+                break
+            print(f"接收到消息: {message}")
+            # 发送响应消息
+            response = f"服务器收到了: {message}"
+            send_message(client_socket, response)
