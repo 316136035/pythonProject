@@ -45,29 +45,23 @@ def client_socket_fun(client_socket, addr):
                 # 如果消息为"exit"，则退出循环，结束与该客户端的连接
                 if message == "exit":
                     break
-                # 使用线程锁保护对client_sockets的访问
+                print(f"收到消息: {message}")
+                user,msg=message.split(":",1)
+                if client_sockets.get(user)==None:
+                    client_sockets[user]=client_socket
+                    print(f"欢迎: {user} 进群！！！！")
+                else:
+                     print("用户已存在群中")
                 with lock:
-                    # 遍历所有客户端套接字，除了自身以外，将消息广播给其他所有客户端
-                    for other_client_socket in client_sockets[:]:
-                        if other_client_socket != client_socket:
-                            # 发送消息
-                            send_message(other_client_socket, message)
+                    # 遍历所有已连接的客户端，发送消息
+                    for user, client_socket in client_sockets.items():
+                        send_message(client_socket, f"{user}:{msg}")
                     # 打印消息转发成功的日志
                     print(f"消息转发成功!!: {message}")
         # 捕获异常并处理
         except Exception as e:
             print(f"客户端连接异常: {e}")
-            # 使用线程锁保护对client_sockets的访问
-            with lock:
-                # 移除断开连接的客户端套接字
-                client_sockets.remove(client_socket)
-                 #遍历所有客户端套接字，除了自身以外，将消息广播给其他所有客户端
-                for other_client_socket in client_sockets[:]:
-                     if other_client_socket != client_socket:
-                        # 发送消息
-                         send_message(other_client_socket, f"客户端 {addr} 断开连接")
-                    # 打印消息转发成功的日志
-                
+           
                 
 
 # 创建服务器套接字
@@ -84,13 +78,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
             # 等待客户端连接，accept()方法会阻塞直到有客户端连接
             client_socket, addr = server_socket.accept()
             # 使用线程锁保护对client_sockets的访问
-            with lock:
-                # 将新连接的客户端套接字添加到列表中
-                client_sockets.append(client_socket)
+       
+          
             # 创建一个新线程来处理这个客户端连接
             threading.Thread(target=client_socket_fun, args=(client_socket, addr)).start()
             # 打印客户端连接成功的日志
-            print("客户端连接成功")
+            print("客户端连接成功{addr}")
     finally:
         # 关闭服务器套接字
         server_socket.close()
