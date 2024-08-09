@@ -61,6 +61,14 @@ def client_socket_fun(client_socket, addr):
             with lock:
                 # 移除断开连接的客户端套接字
                 client_sockets.remove(client_socket)
+                 #遍历所有客户端套接字，除了自身以外，将消息广播给其他所有客户端
+                for other_client_socket in client_sockets[:]:
+                     if other_client_socket != client_socket:
+                        # 发送消息
+                         send_message(other_client_socket, f"客户端 {addr} 断开连接")
+                    # 打印消息转发成功的日志
+                
+                
 
 # 创建服务器套接字
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
