@@ -79,14 +79,18 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     
     # 无限循环，等待并处理新客户端的连接
     print("等待客户端连接...")
-    while True:
-        # 等待客户端连接，accept()方法会阻塞直到有客户端连接
-        client_socket, addr = server_socket.accept()
-        # 使用线程锁保护对client_sockets的访问
-        with lock:
-            # 将新连接的客户端套接字添加到列表中
-            client_sockets.append(client_socket)
-        # 创建一个新线程来处理这个客户端连接
-        threading.Thread(target=client_socket_fun, args=(client_socket, addr)).start()
-        # 打印客户端连接成功的日志
-        print("客户端连接成功")
+    try:
+        while True:
+            # 等待客户端连接，accept()方法会阻塞直到有客户端连接
+            client_socket, addr = server_socket.accept()
+            # 使用线程锁保护对client_sockets的访问
+            with lock:
+                # 将新连接的客户端套接字添加到列表中
+                client_sockets.append(client_socket)
+            # 创建一个新线程来处理这个客户端连接
+            threading.Thread(target=client_socket_fun, args=(client_socket, addr)).start()
+            # 打印客户端连接成功的日志
+            print("客户端连接成功")
+    finally:
+        # 关闭服务器套接字
+        server_socket.close()
