@@ -3,7 +3,7 @@ import threading
 
 
 def send_message(sock):
-    username="amdin_1"
+    username="amdin_2"
     while True:
         try:
             # 发送消息
