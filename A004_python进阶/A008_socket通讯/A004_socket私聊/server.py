@@ -5,7 +5,7 @@ import threading
 lock = threading.Lock()
 
 # 存储所有已连接客户端的套接字
-client_sockets = {}
+client_sockets ={}
 
 # 发送消息到指定的套接字
 def send_message(sock, message):
@@ -29,10 +29,8 @@ def receive_message(sock):
     while len(received_data) < message_length:
         chunk = sock.recv(min(4096, message_length - len(received_data)))
         received_data += chunk
+    # 返回解码后的消息
     return received_data.decode()
-
-    
-
 
 # 处理单个客户端连接的函数
 def client_socket_fun(client_socket, addr):
@@ -44,16 +42,18 @@ def client_socket_fun(client_socket, addr):
             while True:
                 # 接收客户端消息
                 message = receive_message(client_socket)
-                    # 返回解码后的消息并提取用户名
-                username,msg=message.split(":")
-                if client_sockets.get(username) != None:
-                    client_sockets [username]=client_socket
-                
-                
                 # 如果消息为"exit"，则退出循环，结束与该客户端的连接
                 if message == "exit":
                     break
-                    
+                # 使用线程锁保护对client_sockets的访问
+                with lock:
+                    # 遍历所有客户端套接字，除了自身以外，将消息广播给其他所有客户端
+                    for other_client_socket in client_sockets[:]:
+                        if other_client_socket != client_socket:
+                            # 发送消息
+                            send_message(other_client_socket, message)
+                    # 打印消息转发成功的日志
+                    print(f"消息转发成功!!: {message}")
         # 捕获异常并处理
         except Exception as e:
             print(f"客户端连接异常: {e}")
